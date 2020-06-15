@@ -4,6 +4,9 @@
 2. Log-in using your username and password (created during [registration](registration_login.md))
      - Login is required for full functionality including access to datasets
 3. Select the banner or text link for the Framework Initiative of interest: e.g. [Oz Mammals Genomics](https://ozmammalsgenomics.com/)
+
+![](/omg_banner.png)
+
 4. Use the Search datasets… field  textbox to search for the data you want (e.g. PacBio Dunnart)
 5. To narrow search results further, use the Tags in the left column, which will filter the data (see image at right)
 6. When you have the files you want on the search page, click bulk download
