@@ -19,24 +19,24 @@
 <p align="center">
 <img src="/omg_download.png">
 </p>
-
-     - This will generate a zip folder with the files you need to download the data
-     - Download and decompress this folder
-     - Inside there are the following files and folders:
-          - package_metadata/
-          - resource_metadata/
-          - download.ps1
-          - download.sh
-          - md5sum.txt
-          - README.txt
-          - urls.txt
+     
+   - This will generate a zip folder with the files you need to download the data
+   - Download and decompress this folder
+   - Inside there are the following files and folders:
+       - package_metadata/
+       - resource_metadata/
+       - download.ps1
+       - download.sh
+       - md5sum.txt
+       - README.txt
+       - urls.txt
 
 7. README.txt provides instructions for data download: PLEASE READ THIS!
 8. package_metadata contains a spreadsheet file with the metadata relevant to the downloaded filtered data set
 9. resource_metada contains a spreadsheet file with the metadata relevant to the files which comprise the filtered data set
 10. download.ps1 and download.sh are shell scripts 
-     - download.ps1: Windows PowerShell script, which when executed will download the files, and then checksum them. This is supported on a Microsoft system, and uses only PowerShell.
-     - download.sh: UNIX shell script, which when executed will download the files, and then checksum them. This is supported on any Linux or MacOS/BSD system, so long as `curl` is installed.
+   - download.ps1: Windows PowerShell script, which when executed will download the files, and then checksum them. This is supported on a Microsoft system, and uses only PowerShell.
+   - download.sh: UNIX shell script, which when executed will download the files, and then checksum them. This is supported on any Linux or MacOS/BSD system, so long as `curl` is installed.
  
  ```
  #!/bin/sh
