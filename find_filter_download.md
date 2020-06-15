@@ -11,7 +11,7 @@
 5. To narrow search results further, use the Tags in the left column, which will filter the data (see image below)
 
 <p align="center">
-![](/omg_tags.png)
+<img src="/omg_tags.png">
 </p>
      
 6. When you have the files you want on the search page, click bulk download
