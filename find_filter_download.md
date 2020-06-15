@@ -16,6 +16,10 @@
      
 6. When you have the files you want on the search page, click bulk download
 
+<p align="center">
+<img src="/omg_download.png">
+</p>
+
      - This will generate a zip folder with the files you need to download the data
      - Download and decompress this folder
      - Inside there are the following files and folders:
