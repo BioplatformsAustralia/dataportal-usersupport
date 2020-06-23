@@ -1,4 +1,4 @@
-## **Find, filter and download Framework Initiative data**
+## Find, filter and download Framework Initiative data
 
 1. Go to the Data portal page
 2. Log-in using your username and password (created during [registration](registration_login.md))
