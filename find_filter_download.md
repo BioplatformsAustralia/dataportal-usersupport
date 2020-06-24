@@ -10,19 +10,19 @@
 4. Use the `Search datasets…` field  textbox to search for the data you want (e.g. PacBio Dunnart)
 
 <p align="center">
-<img src="/omg_search.png">
+<img src="omg_search.png">
 </p>
 
 5. To narrow search results further, use the Tags in the left column, which will filter the data (see image below)
 
 <p align="center">
-<img src="/omg_tags.png">
+<img src="omg_tags.png">
 </p>
      
 6. When you have the files you want on the search page, click bulk download
 
 <p align="center">
-<img src="/omg_download.png">
+<img src="omg_download.png">
 </p>
      
    - This will generate a zip folder with the files you need to download the data
