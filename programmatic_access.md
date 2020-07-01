@@ -86,7 +86,8 @@ x$count
 ### Searching: bash
 
 ```bash
-curl -H 'Authorization: xx-xx-xx-xx-xx' 'https://data.bioplatforms.com/api/3/action/package_search?q=type:amdb-genomics-amplicon&rows=50000&include_private=true'
+export CKAN_API_KEY="xx-xx-xx-xx-xx"
+curl -H "Authorization: "$CKAN_API_KEY" 'https://data.bioplatforms.com/api/3/action/package_search?q=type:amdb-genomics-amplicon&rows=50000&include_private=true'
 ```
 
 ## Downloading data from the CKAN archive
@@ -118,7 +119,25 @@ for package in result['results']:
             fd.write(resp.content)
 ```
 
+### Downloading data: bash
 
+We 'pipe' the response received from the Data Portal into `jq`, a command-line tool which allows us to easily 
+parse JSON data.
 
+```bash
+export CKAN_API_KEY="xx-xx-xx-xx-xx"
+for URL in $( curl -H "Authorization: $CKAN_API_KEY" 'https://data.bioplatforms.com/api/3/action/package_search?q=type:amdb-genomics-amplicon&rows=50000&include_private=true' | jq -r '.result .results [] .resources [] .url'); do
+  # download the file using curl
+  echo "downloading: $URL"
+  curl -O -L -C - -H "Authorization: $CKAN_API_KEY" "$URL"
+done
+```
 
+You can also use `jq` to generate an MD5 checksum file, which can be used to verify the downloaded data.
 
+```bash
+export CKAN_API_KEY="xx-xx-xx-xx-xx"
+curl -H "Authorization: $CKAN_API_KEY" 'https://data.bioplatforms.com/api/3/action/package_search?q=type:amdb-genomics-amplicon&rows=50000&include_private=true' | jq -r '.result .results [] .resources [] | "\(.md5)  \(.name)"' > checksums.md5
+# check downloaded data
+md5sum -c checksums.md5
+```
