@@ -28,17 +28,20 @@ You will need access to an [R](https://www.r-project.org) installation, either o
 
 ### Getting started: Python
 
-You will need access to a [Python](https://www.python.org) installation, either on your computer or on a HPC node. **Note:** Python is installed by default on MacOS and most Linux systems.
+You will need access to a [Python](https://www.python.org) installation, either on your computer or on a HPC node. **Note:** Python is installed by default on MacOS and most Linux systems. The examples given here are for Python version 3.7 or higher.
 
-Use `pip` to install the [ckanapi](https://github.com/ckan/ckanapi) extension:
+Use `pip` to install the [ckanapi](https://github.com/ckan/ckanapi) extension and the `requests` extension:
 
 ```
 $ pip install ckanapi
+$ pip install requests
 ```
 
 ### Getting started: Bash
 
 You will need [curl](https://curl.haxx.se/) installed. **Note:** Curl is installed by default on MacOS and most Linux systems. For Windows, you can easily install it using the [Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/), or [chocolatey](https://chocolatey.org/).
+
+You will also need [jq](https://stedolan.github.io/jq/) installed - it is including in most Linux distributions, and is available via [homebrew](https://brew.sh/) on MacOS.
 
 ## Searching the CKAN archive
 
@@ -55,6 +58,8 @@ It is helpful to be aware of two key concepts which the Data Portal uses:
 2. Resources: a resource is a file, with its associated metadata, including its type and size
 
 The following sections contain example code snippets demonstrating how to search for all 'amplicon' data from the Australian Microbiome Framework Initiative. The Bioplatforms Australia Data Portal allows up to 50,000 search results to be returned at a time. The results returned will contain the *package* and *resource* metadata for each 'amplicon' dataset.
+
+The list of all data types, and their associated schemas, are in the [ckanext-bpatheme](https://github.com/BioplatformsAustralia/ckanext-bpatheme/tree/master/ckanext/bpatheme) repository on Github. Each data type has a JSON schema file in that directory.
 
 ### Searching: Python
 
@@ -83,3 +88,37 @@ x$count
 ```bash
 curl -H 'Authorization: xx-xx-xx-xx-xx' 'https://data.bioplatforms.com/api/3/action/package_search?q=type:amdb-genomics-amplicon&rows=50000&include_private=true'
 ```
+
+## Downloading data from the CKAN archive
+
+Once you have identified the packages containing the data you wish to download, it is possible to programmatically
+download this data. You may also wish to save the associated metadata for use in your analysis.
+
+The following examples extend the search functionality above to download and save data files.
+
+### Downloading data: Python
+
+```python
+import ckanapi
+remote = ckanapi.RemoteCKAN('https://data.bioplatforms.com', apikey='xx-xx-xx-xx-xx')
+# we increase the number of rows to be returned, and we
+# ask for all packages, including private packages
+result = remote.action.package_search(
+    q='type:amdb-genomics-amplicon',
+    rows=50000,
+    include_private=True)
+print("{} matches found.".format(result['count']))
+# iterate through the resulting packages, downloading them one by one
+import requests
+for package in result['results']:
+    for resource in package['resources']:
+        url = resource['url']
+        resp = requests.get(resource['url'], headers={'Authorization': remote.apikey})
+        with open(resource['name'], 'wu') as fd:
+            fd.write(resp.content)
+```
+
+
+
+
+
