@@ -23,7 +23,9 @@ You will need access to an [R](https://www.r-project.org) installation, either o
 2. Install the [ckanr](https://github.com/ropensci/ckanr) bindings for CKAN:
 
 ```
-> install.packages("ckanr")
+> install.packages("devtools")
+> library("devtools")
+> install_github("ropensci/ckanr")
 ```
 
 ### Getting started: Python
