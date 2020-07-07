@@ -78,9 +78,11 @@ print("{} matches found.".format(result['count']))
 ### Searching: R
 
 ```R
-ckanr_setup(url="https://data.bioplatforms.com", key="xx-xx-xx-xx-xx")
+library(ckanr)
+key="xx-xx-xx-xx-xx"
+ckanr_setup(url="https://data.bioplatforms.com", key=key)
 x <- package_search(q='type:amdb-genomics-amplicon', rows=50000, include_private=TRUE)
-x$count
+print(x$count)
 ```
 
 ### Searching: bash
@@ -119,10 +121,26 @@ for package in result['results']:
             fd.write(resp.content)
 ```
 
+### Downloading data: R
+
+```R
+library(ckanr)
+key="xx-xx-xx-xx-xx"
+ckanr_setup(url="https://data.bioplatforms.com", key=key)
+x <- package_search(q='type:amdb-genomics-amplicon', rows=50000, include_private=TRUE)
+headers <- (key)
+names(headers) <- c('Authorization')
+for (package in x$results) {
+    for (resource in package$resources) {
+        print(resource$url)
+        download.file(resource$url, resource$name, headers=headers)
+    }
+}
+```
+
 ### Downloading data: bash
 
-We 'pipe' the response received from the Data Portal into `jq`, a command-line tool which allows us to easily 
-parse JSON data.
+We 'pipe' the response received from the Data Portal into `jq`, a command-line tool which allows us to easily parse JSON data.
 
 ```bash
 export CKAN_API_KEY="xx-xx-xx-xx-xx"
