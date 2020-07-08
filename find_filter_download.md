@@ -36,6 +36,8 @@
        - `README.txt`
        - `urls.txt`
 
+If you wish to download the data from your cloud or HPC environment, copy the Zip archive to that system, extract it, and run the download from there directly. This means you will have access to the reliable, high-speed connection to the internet provided by that environment, as well as any attached storage resources.
+
 7. `README.txt` provides instructions for data download: **PLEASE READ THIS!**
 8. `package_metadata` contains a spreadsheet file with the metadata relevant to the downloaded filtered data set
 9. `resource_metada` contains a spreadsheet file with the metadata relevant to the files which comprise the filtered data set
