@@ -161,3 +161,47 @@ curl -H "Authorization: $CKAN_API_KEY" 'https://data.bioplatforms.com/api/3/acti
 # check downloaded data
 md5sum -c checksums.md5
 ```
+
+## Advanced integrations with the archive
+
+Once you are set up for programmatic access, it is build more advanced integrations with the portal. As examples, you
+could:
+
+- poll the portal periodically for new data, and automatically download it
+- only download files that you haven't already downloaded
+- run an analysis pipeline as data becomes available
+- perform arbitrary complex filters on the data and metadata in the portal
+
+The example below (in Python) explores some of those possibilites, building on the snippets above.
+
+```python
+import ckanapi
+import datetime
+import os
+
+remote = ckanapi.RemoteCKAN('https://data.bioplatforms.com', apikey='xx-xx-xx-xx-xx')
+# we increase the number of rows to be returned, and we
+# ask for all packages, including private packages
+result = remote.action.package_search(
+    q='type:amdb-genomics-amplicon',
+    rows=50000,
+    include_private=True)
+print("{} matches found.".format(result['count']))
+# iterate through the resulting packages, downloading them one by one
+import requests
+for package in result['results']:
+    # filter the results based on the date they were sampled
+    date_sampled = datetime.datetime.strptime(package['date_sampled'], '%Y-%m-%d').date()
+    # if the sample is less than 90 days old, excluded it
+    if (datetime.date.today() - date_sampled).days < 90:
+        continue
+    for resource in package['resources']:
+        target = resource['name']
+        # do we already have the file? if so, skip the download
+        if os.access(target, os.R_OK):
+            continue
+        url = resource['url']
+        resp = requests.get(resource['url'], headers={'Authorization': remote.apikey})
+        with open(target, 'wu') as fd:
+            fd.write(resp.content)
+```
