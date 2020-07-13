@@ -13,8 +13,10 @@ Note: the processed data facility instructions can be accessed [here](https://da
                - Bacteria / 16SrRNA (27f / 591r) 
                - Archaea / 16SrRNA (A2f / 519r)
                - Fungi / ITS1 (ITS1F / ITS4) - Soil only
+               - Fungi / ITS2 (ITS1F / ITS4) - Soil only
                - Eukaryota / 18SrRNA (1391f / EukBr) - Soil only
                - Eukaryota / 18SrRNA (18Sv4F / 18Sv4R) – Marine only
+               - Metaxa (bacterial 16SrRNA derived from metagenomes)
           - Taxonomy (hierarchical, taxonomic selection auto-populate lower taxonomic search terms)
           - Contextual     
                - Environment (all; marine; soil)
