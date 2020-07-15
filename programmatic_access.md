@@ -162,6 +162,10 @@ curl -H "Authorization: $CKAN_API_KEY" 'https://data.bioplatforms.com/api/3/acti
 md5sum -c checksums.md5
 ```
 
+### Downloading data: bash @ HPC
+
+If you wish to download data directly from your cloud or HPC environment, you can copy the bulk download Zip archive, described in the [find, filter, download](find_filter_download.md) guide, to that system, extract it, and run the download (`download.sh`) from there. This means you will have access to the reliable, high-speed connection to the internet provided by that environment, as well as any attached storage resources.
+
 ## Advanced integrations with the archive
 
 Once you are set up for programmatic access, it is build more advanced integrations with the portal. As examples, you
