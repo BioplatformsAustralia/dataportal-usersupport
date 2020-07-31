@@ -54,7 +54,7 @@ the associated metadata for samples contained in the abundance table
 
 7. The "Show results on Map" link will open a heatmap view of the samples filtered. The default initial view contains the full dataset.
 
-![](ami_processed_data_2)
+![](ami_processed_data_2.png)
 
 8. Zoom in/out using the +/- buttons or by “right clicking” on the collection site
      - In case of multiple samples mapped a number will indicate how many sites are represented with a gradient colour (red for high numbers to green for low numbers)
