@@ -12,6 +12,7 @@ When your computer program connects to the portal, it must identify itself. It w
 2. At the top right of the page, you will see either a prompt to log in, or your name 
 3. Log in, if required, and then click on your name
 4. Your API key will be visible in the sidebar
+    * **You will need this API key for the scripts used below!**
 
 If you are downloading or uploading large datasets from the portal, it is highly recommended that you do this from an appropriate environment, with a fast and reliable connection to the internet. Many institutions provide access to HPC nodes.
 
@@ -62,6 +63,14 @@ It is helpful to be aware of two key concepts which the Data Portal uses:
 The following sections contain example code snippets demonstrating how to search for all 'amplicon' data from the Australian Microbiome Framework Initiative. The Bioplatforms Australia Data Portal allows up to 50,000 search results to be returned at a time. The results returned will contain the *package* and *resource* metadata for each 'amplicon' dataset.
 
 The list of all data types, and their associated schemas, are in the [ckanext-bpatheme](https://github.com/BioplatformsAustralia/ckanext-bpatheme/tree/master/ckanext/bpatheme) repository on Github. Each data type has a JSON schema file in that directory.
+
+**Note: you will need to change the following elements below for the scripts to function correctly**
+
+- replace the `xx-xx-xx-xx-xx` with your API key from the data portal
+- replace the `type:amdb-genomics-amplicon` with the data type you would like to search for: these can be found in the [ckanext-bpatheme](https://github.com/BioplatformsAustralia/ckanext-bpatheme/tree/master/ckanext/bpatheme) repository on Github
+
+For example:
+![](programmatic_access.png)
 
 ### Searching: Python
 
