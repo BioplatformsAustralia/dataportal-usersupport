@@ -161,6 +161,14 @@ if ! which curl >/dev/null 2>&1; then
   exit 1
 fi
 
+if ! which md5sum >/dev/null 2>&1; then
+  echo "`md5sum` is not installed. Please install it."
+  echo
+  echo "On MacOS, it can be installed via HomeBrew (https://brew.sh/)"
+  echo "using the command `brew install md5sha1sum`"
+  exit 1
+fi
+
 echo "Downloading data"
 while read URL; do
     echo "Downloading: $URL"
@@ -175,3 +183,11 @@ md5sum -c tmp/[DATA PACKAGE NAME]_md5sum.txt 2>&1 | tee tmp/md5sum.log
 13. Set up API key
 14. Run `downloads.sh` or `downloads.ps1` again
 15. The data should now download and checksum
+
+### Common Issues and Problems
+
+#### download.sh - MD5 sums do not validate correctly and files are not correct size
+
+* Check that you are running a recent version of curl.   The Bioplatforms Data Portal requires version 7.58 or later
+  (due to a bug fix with the Authorization header).  Run `curl --version` to check.
+* Check that your PATH contains the correct version of curl.  Run `which curl` to check.
