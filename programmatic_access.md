@@ -61,7 +61,7 @@ It is helpful to be aware of two key concepts which the Data Portal uses:
 
 The following sections contain example code snippets demonstrating how to search for all 'amplicon' data from the Australian Microbiome Framework Initiative. The Bioplatforms Australia Data Portal allows up to 50,000 search results to be returned at a time. The results returned will contain the *package* and *resource* metadata for each 'amplicon' dataset.
 
-The list of all data types, and their associated schemas, are in the [ckanext-bpatheme](https://github.com/BioplatformsAustralia/ckanext-bpatheme/tree/master/ckanext/bpatheme) repository on Github. Each data type has a JSON schema file in that directory.
+The list of all data types, and their associated schemas, are in the [ckanext-bpatheme](https://github.com/BioplatformsAustralia/ckanext-bpatheme/tree/master/ckanext/bpatheme) repository on Github. Each data type has a JSON schema file in that directory. **Make sure to change to delimiter from ```_``` (underscore) to ```-``` (hyphen) prior to trying a programmatic search.**
 
 ### Searching: Python
 
