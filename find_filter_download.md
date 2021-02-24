@@ -1,4 +1,6 @@
-## **Find, filter and download Framework Initiative data**
+---
+title: "Find, filter and download Framework Initiative data"
+---
 
 ### Context
 
@@ -11,24 +13,24 @@ This guide is intended to capture download to a desktop workstation. Please note
      - Login is required for full functionality including access to datasets
 3. Select the banner or text link for the Framework Initiative of interest: e.g. [Oz Mammals Genomics](https://ozmammalsgenomics.com/)
 
-![](/omg_banner.png)
+![](images/omg_banner.png)
 
 4. Use the `Search datasets…` field  textbox to search for the data you want (e.g. PacBio Dunnart)
 
 <p align="center">
-<img src="omg_search.png">
+<img src="images/omg_search.png">
 </p>
 
 5. To narrow search results further, use the Tags in the left column, which will filter the data (see image below)
 
 <p align="center">
-<img src="omg_tags.png">
+<img src="images/omg_tags.png">
 </p>
      
 6. When you have the files you want on the search page, click bulk download
 
 <p align="center">
-<img src="omg_download.png">
+<img src="images/omg_download.png">
 </p>
      
    - This will generate a zip folder with the files you need to download the data

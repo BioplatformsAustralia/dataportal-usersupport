@@ -1,4 +1,6 @@
-# Programmatic access to the Bioplatforms Data Portal
+---
+title: "Programmatic access to the Bioplatforms Data Portal"
+---
 
 The Bioplatforms Data Portal is based upon [CKAN](https://ckan.org/), an open source platform for sharing metadata and data. CKAN provides Application Programming Interfaces (APIs) which allow computer software to interact with the portal. It is possible for software to programmatically do everything you can do manually by using the portal in your web browser - including searching for data, downloading data, and even uploading data.
 

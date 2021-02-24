@@ -1,4 +1,6 @@
-## **Registration and log-in**
+---
+title: "Registration and log-in"
+---
 
 1. Go to the [Registration page](https://data.bioplatforms.com/user/register) and create an account
 
