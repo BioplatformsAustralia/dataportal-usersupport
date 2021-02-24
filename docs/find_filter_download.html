@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Find, filter and download Framework Initiative data</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Home</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="registration_login.html">Registration &amp; login</a>
+</li>
+<li>
+  <a href="find_filter_download.html">Find, filter &amp; download</a>
+</li>
+<li>
+  <a href="programmatic_access.html">Programmatic access</a>
+</li>
+<li>
+  <a href="metadata_filter_ausmicrobiome.html">Filter AusMicrobiome data</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Find, filter and download Framework Initiative data</h1>
+
+</div>
+
+
+<div id="context" class="section level3">
+<h3>Context</h3>
+<p>This guide is intended to capture download to a desktop workstation. Please note, the <code>download.sh</code> file described in step 12 below can be used for direct download of portal data to a high performance computing (HPC) environment.</p>
+</div>
+<div id="instructions" class="section level3">
+<h3>Instructions</h3>
+<ol style="list-style-type: decimal">
+<li>Go to the Data portal page</li>
+<li>Log-in using your username and password (created during <a href="registration_login.md">registration</a>)
+<ul>
+<li>Login is required for full functionality including access to datasets</li>
+</ul></li>
+<li>Select the banner or text link for the Framework Initiative of interest: e.g. <a href="https://ozmammalsgenomics.com/">Oz Mammals Genomics</a></li>
+</ol>
+<p><img src="images/omg_banner.png" /></p>
+<ol start="4" style="list-style-type: decimal">
+<li>Use the <code>Search datasets…</code> field textbox to search for the data you want (e.g. PacBio Dunnart)</li>
+</ol>
+<p align="center">
+<img src="images/omg_search.png">
+</p>
+<ol start="5" style="list-style-type: decimal">
+<li>To narrow search results further, use the Tags in the left column, which will filter the data (see image below)</li>
+</ol>
+<p align="center">
+<img src="images/omg_tags.png">
+</p>
+<ol start="6" style="list-style-type: decimal">
+<li>When you have the files you want on the search page, click bulk download</li>
+</ol>
+<p align="center">
+<img src="images/omg_download.png">
+</p>
+<ul>
+<li>This will generate a zip folder with the files you need to download the data</li>
+<li>Download and decompress this folder</li>
+<li>Inside there are the following files and folders:
+<ul>
+<li><code>package_metadata/</code></li>
+<li><code>resource_metadata/</code></li>
+<li><code>tmp/</code></li>
+<li><code>download.ps1</code></li>
+<li><code>download.sh</code></li>
+<li><code>README.txt</code></li>
+</ul></li>
+</ul>
+<ol start="7" style="list-style-type: decimal">
+<li><code>README.txt</code> provides instructions for data download: <strong>PLEASE READ THIS!</strong></li>
+<li><code>package_metadata</code> contains a spreadsheet file with the metadata relevant to the downloaded filtered data set</li>
+<li><code>resource_metada</code> contains a spreadsheet file with the metadata relevant to the files which comprise the filtered data set</li>
+<li>The <code>tmp/</code> folder contains:</li>
+</ol>
+<ul>
+<li><code>*_md5sum.txt</code>, where the * indicates the name of the downloaded data package</li>
+<li><code>*_urls.txt</code>, where the * indicates the urls for each data set in the downloaded package</li>
+</ul>
+<ol start="11" style="list-style-type: decimal">
+<li><code>download.ps1</code> and <code>download.sh</code> are shell scripts</li>
+</ol>
+<ul>
+<li><code>download.ps1</code>: Windows PowerShell script (see below), which when executed will download the files, and then checksum them. This is supported on a Microsoft system, and uses only PowerShell.</li>
+</ul>
+<pre><code>#!/usr/bin/env pwsh
+
+$apikey = $Env:CKAN_API_KEY
+if (!$apikey) {
+  &#39;Please set the CKAN_API_KEY environment variable.&#39;
+  &#39;&#39;
+  &#39;You can find your API Key by browsing to:&#39;
+  &#39;https://data.bioplatforms.com//user/[USERNAME]&#39;
+  &#39;&#39;
+  &#39;The API key has the format:&#39;
+  &#39;xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx&#39;
+  &#39;&#39;
+  &#39;To set the environment variable in Linux/MacOS/Unix, use:&#39;
+  &#39;export CKAN_API_KEY=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx&#39;
+  &#39;&#39;
+  &#39;On Microsoft Windows, within Powershell, use:&#39;
+  &#39;$env:CKAN_API_KEY=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx&#39;
+  exit 1
+}
+
+#
+# This PowerShell script was automatically generated.
+#
+
+function DownloadURL($url)
+{
+    $filename = $url.Substring($url.lastIndexOf(&#39;/&#39;) + 1)
+    if (Test-Path $filename) {
+        &quot;File already exists, skipping download: &quot; + $filename
+        return
+    }
+    $client = new-object System.Net.WebClient
+    if ($apikey) {
+        $client.Headers.Add(&#39;Authorization: &#39; + $apikey)
+    }
+    &quot;Downloading: &quot; + $filename
+    $client.DownloadFile($url, $filename)
+}
+
+function VerifyMD5([String]$filename, [String]$expected_md5)
+{
+    $md5hash = new-object -TypeName System.Security.Cryptography.MD5CryptoServiceProvider
+    try {
+        $actual_md5 = [System.BitConverter]::ToString($md5hash.ComputeHash([System.IO.File]::ReadAllBytes($filename))).Replace(&#39;-&#39;, &#39;&#39;).toLower();
+    } catch [System.IO.FileNotFoundException] {
+        $filename + &quot;: FAILED open or read&quot;
+        return
+    }
+    if ($actual_md5 -eq $expected_md5) {
+        $filename + &quot;: OK&quot;
+    } else {
+        $filename + &quot;: FAILED&quot;
+    }
+}
+
+&#39;Commencing bulk download of data from CKAN:&#39;
+&#39;&#39;
+
+$urls = Get-Content &#39;tmp/[DATA PACKAGE NAME]_urls.txt&#39;
+ForEach ($line in $urls) {
+    DownloadURL $line
+}
+
+&#39;File downloads complete.&#39;
+&#39;&#39;
+&#39;Verifying file checksums:&#39;
+&#39;&#39;
+$md5s = Get-Content &#39;tmp/[DATA PACKAGE NAME]_md5sum.txt&#39;
+ForEach ($line in $md5s) {
+    $md5, $filename = $line.Split(&quot; &quot;,[StringSplitOptions]&#39;RemoveEmptyEntries&#39;)
+    VerifyMD5 $filename $md5
+}</code></pre>
+<ul>
+<li><code>download.sh</code>: UNIX shell script (see below), which when executed will download the files, and then checksum them. This is supported on any Linux or MacOS/BSD system, so long as <code>curl</code> is installed.</li>
+</ul>
+<pre><code>#!/bin/sh
+
+#
+# This UNIX shell script was automatically generated.
+#
+
+if [ x&quot;$CKAN_API_KEY&quot; = &quot;x&quot; ]; then
+ echo &quot;Please set the CKAN_API_KEY environment variable.&quot;
+ echo
+ echo &quot;You can find your API Key by browsing to:&quot;
+ echo &quot;https://data.bioplatforms.com//user/[USERNAME]&quot;
+ echo
+ echo &quot;The API key has the format:&quot;
+ echo &quot;xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx&quot;
+ echo
+ echo &quot;To set the environment variable in Linux/MacOS/Unix, use:&quot;
+ echo &quot;export CKAN_API_KEY=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx&quot;
+ echo &quot;&quot;
+ exit 1
+fi
+
+
+if ! which curl &gt;/dev/null 2&gt;&amp;1; then
+ echo &quot;`curl` is not installed. Please install it.&quot;
+ echo
+ echo &quot;On MacOS, it can be installed via HomeBrew (https://brew.sh/)&quot;
+ echo &quot;using the command `brew install curl`&quot;
+ exit 1
+fi
+
+if ! which md5sum &gt;/dev/null 2&gt;&amp;1; then
+ echo &quot;`md5sum` is not installed. Please install it.&quot;
+ echo
+ echo &quot;On MacOS, it can be installed via HomeBrew (https://brew.sh/)&quot;
+ echo &quot;using the command `brew install md5sha1sum`&quot;
+ exit 1
+fi
+
+echo &quot;Downloading data&quot;
+while read URL; do
+   echo &quot;Downloading: $URL&quot;
+   curl -O -L -C - -H &quot;Authorization: $CKAN_API_KEY&quot; &quot;$URL&quot;
+done &lt; tmp/[DATA PACKAGE NAME]_urls.txt
+
+echo &quot;Data download complete. Verifying checksums:&quot;
+md5sum -c tmp/[DATA PACKAGE NAME]_md5sum.txt 2&gt;&amp;1 | tee tmp/md5sum.log</code></pre>
+<ol start="12" style="list-style-type: decimal">
+<li>When you run <code>download.sh</code> or <code>download.ps1</code>, it will provide instructions to set up your API key</li>
+<li>Set up API key</li>
+<li>Run <code>downloads.sh</code> or <code>downloads.ps1</code> again</li>
+<li>The data should now download and checksum</li>
+</ol>
+</div>
+<div id="common-issues-and-problems" class="section level3">
+<h3>Common Issues and Problems</h3>
+<div id="download.sh---md5-sums-do-not-validate-correctly-and-files-are-not-correct-size" class="section level4">
+<h4>download.sh - MD5 sums do not validate correctly and files are not correct size</h4>
+<ul>
+<li>Check that you are running a recent version of curl. The Bioplatforms Data Portal requires version 7.58 or later (due to a bug fix with the Authorization header). Run <code>curl --version</code> to check.</li>
+<li>Check that your PATH contains the correct version of curl. Run <code>which curl</code> to check.</li>
+</ul>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

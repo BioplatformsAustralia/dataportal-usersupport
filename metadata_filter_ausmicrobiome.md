@@ -1,4 +1,7 @@
-## **Filter by meta-data ([Australian Microbiome](https://www.australianmicrobiome.com/))**
+---
+title: "Filter by meta-data ([Australian Microbiome](https://www.australianmicrobiome.com/))"
+---
+
 
 Note: the processed data facility instructions can be accessed [here](https://data.bioplatforms.com/organization/pages/australian-microbiome/processed). This text has been incorporated below.
 
@@ -7,11 +10,11 @@ Note: the processed data facility instructions can be accessed [here](https://da
 3. Select the banner or text link for the Framework Initiative of interest: e.g. [Australian Microbiome](https://www.australianmicrobiome.com/)
 4. In the "Home" tab for the Initiative, click [Additional instructions on processed data functionalities](https://data.bioplatforms.com/organization/pages/australian-microbiome/processed)
 
-![](ami_link_1.png)
+![](images/ami_link_1.png)
 
 5. On the [Processed data](https://data.bioplatforms.com/organization/pages/australian-microbiome/processed) page, click the [Access processed data search facility](https://data.bioplatforms.com/bpa/otu/) link
 
-![](ami_link_2.png)
+![](images/ami_link_2.png)
 
 6. Apply filters to reduce to your dataset(s) of interest
      - Filters of the different categories can be combined
@@ -33,7 +36,7 @@ Note: the processed data facility instructions can be accessed [here](https://da
                     - Sample ID (single or range selection)
                     - Sample type (all; coastal water; coral; pelagic; seaweed; sediment; soil; sponge)
 
-![](ami_processed_data.png)
+![](images/ami_processed_data.png)
 
 ```
 Taxonomy search example
@@ -54,7 +57,7 @@ the associated metadata for samples contained in the abundance table
 
 7. The "Show results on Map" link will open a heatmap view of the samples filtered. The default initial view contains the full dataset.
 
-![](ami_processed_data_2.png)
+![](images/ami_processed_data_2.png)
 
 8. Zoom in/out using the +/- buttons or by “right clicking” on the collection site
      - In case of multiple samples mapped a number will indicate how many sites are represented with a gradient colour (red for high numbers to green for low numbers)
