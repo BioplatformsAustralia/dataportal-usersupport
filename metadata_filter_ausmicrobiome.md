@@ -2,6 +2,12 @@
 title: "Filter by meta-data ([Australian Microbiome](https://www.australianmicrobiome.com/))"
 ---
 
+<style type="text/css">
+.main-container {
+  max-width: 1500px;
+}
+</style>
+
 <html>
 
 <div class="sidenav">

@@ -2,6 +2,12 @@
 title: "Find, filter and download Framework Initiative data"
 ---
 
+<style type="text/css">
+.main-container {
+  max-width: 1500px;
+}
+</style>
+
 <html>
 
 <div class="sidenav">
