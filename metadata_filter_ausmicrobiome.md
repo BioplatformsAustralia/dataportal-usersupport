@@ -2,6 +2,17 @@
 title: "Filter by meta-data ([Australian Microbiome](https://www.australianmicrobiome.com/))"
 ---
 
+<html>
+
+<div class="sidenav">
+  <a href="index.html">Home</a>
+  <a href="registration_login.html">How to register for an account and log-in</a>
+  <a href="find_filter_download.html">How to find, filter and bulk download data and meta-data</a>
+  <a href="programmatic_access.html">Programmatic access to the Bioplatforms Data Portal</a>
+  <a href="metadata_filter_ausmicrobiome.html">How to filter Australian Microbiome data</a>
+</div>
+
+</html>
 
 Note: the processed data facility instructions can be accessed [here](https://data.bioplatforms.com/organization/pages/australian-microbiome/processed). This text has been incorporated below.
 
