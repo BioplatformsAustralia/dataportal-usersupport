@@ -2,6 +2,18 @@
 title: "Programmatic access to the Bioplatforms Data Portal"
 ---
 
+<html>
+
+<div class="sidenav">
+  <a href="index.html">Home</a>
+  <a href="registration_login.html">How to register for an account and log-in</a>
+  <a href="find_filter_download.html">How to find, filter and bulk download data and meta-data</a>
+  <a href="programmatic_access.html">Programmatic access to the Bioplatforms Data Portal</a>
+  <a href="metadata_filter_ausmicrobiome.html">How to filter Australian Microbiome data</a>
+</div>
+
+</html>
+
 The Bioplatforms Data Portal is based upon [CKAN](https://ckan.org/), an open source platform for sharing metadata and data. CKAN provides Application Programming Interfaces (APIs) which allow computer software to interact with the portal. It is possible for software to programmatically do everything you can do manually by using the portal in your web browser - including searching for data, downloading data, and even uploading data.
 
 This guide covers access to the portal using the R and Python programming languages, and via the command shell on your desktop computer (`bash` or `zsh`.)

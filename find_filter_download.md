@@ -2,6 +2,18 @@
 title: "Find, filter and download Framework Initiative data"
 ---
 
+<html>
+
+<div class="sidenav">
+  <a href="index.html">Home</a>
+  <a href="registration_login.html">How to register for an account and log-in</a>
+  <a href="find_filter_download.html">How to find, filter and bulk download data and meta-data</a>
+  <a href="programmatic_access.html">Programmatic access to the Bioplatforms Data Portal</a>
+  <a href="metadata_filter_ausmicrobiome.html">How to filter Australian Microbiome data</a>
+</div>
+
+</html>
+
 ### Context
 
 This guide is intended to capture download to a desktop workstation. Please note, the `download.sh` file described in step 12 below can be used for direct download of portal data to a high performance computing (HPC) environment.

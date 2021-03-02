@@ -1,17 +1,7 @@
 name: "Bioplatforms Data Portal User Support Guides"
 output_dir: "docs"
-navbar:
-  title: "Home"
-  left:
-    - text: "Registration & login"
-      href: registration_login.html
-    - text: "Find, filter & download"
-      href: find_filter_download.html
-    - text: "Programmatic access"
-      href: programmatic_access.html
-    - text: "Filter AusMicrobiome data"
-      href: metadata_filter_ausmicrobiome.html
 output:
   html_document:
     theme: cosmo
+    css: styles.css
     
