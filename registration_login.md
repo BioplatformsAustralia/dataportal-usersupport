@@ -2,6 +2,12 @@
 title: "Registration and log-in"
 ---
 
+<style type="text/css">
+.main-container {
+  max-width: 1500px;
+}
+</style>
+
 <html>
 
 <div class="sidenav">

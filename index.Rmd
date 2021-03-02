@@ -2,6 +2,12 @@
 title: "Bioplatforms Data Portal User Support Guides"
 ---
 
+<style type="text/css">
+.main-container {
+  max-width: 1500px;
+}
+</style>
+
 <html>
 
 <div class="sidenav">
