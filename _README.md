@@ -26,6 +26,7 @@ User support articles for the Bioplatforms Data Portal.
 - [Side nav bar](https://www.w3schools.com/howto/howto_js_sidenav.asp)
 - [CSS website layout](https://www.w3schools.com/css/css_website_layout.asp)
 - [CSS page width](https://stackoverflow.com/a/46564977)
+- [Add elements to header - including favicon](https://bookdown.org/yihui/rmarkdown-cookbook/favicon.html)
 
 Xie Yihui, Dervieux Christophe, Riederer Emily. 2020. R Markdown Cookbook. [https://bookdown.org/yihui/rmarkdown-cookbook/](https://bookdown.org/yihui/rmarkdown-cookbook/)
 
