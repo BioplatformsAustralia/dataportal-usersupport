@@ -11,7 +11,7 @@
 
 
 
-<title>Programmatic access to the Bioplatforms Data Portal</title>
+<title>Download Framework Initiative data</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -26,9 +26,9 @@
 
 <div class="sidenav">
   <a href="index.html">Home</a>
-  <a href="registration_login.html">How to register for an account and log-in</a>
-  <a href="find_filter_download.html">How to find, filter and bulk download data and meta-data</a>
-  <a href="programmatic_access.html">Programmatic access to the Bioplatforms Data Portal</a>
+  <a href="registration_login.html">Register and log-in</a>
+  <a href="find_filter_download.html">Find and filter</a>
+  <a href="programmatic_access.html">Download data and meta-data</a>
   <a href="metadata_filter_ausmicrobiome.html">How to filter Australian Microbiome data</a>
 </div>
 
@@ -196,34 +196,235 @@ summary {
 
 
 
-<h1 class="title toc-ignore">Programmatic access to the Bioplatforms Data Portal</h1>
+<h1 class="title toc-ignore">Download Framework Initiative data</h1>
 
 </div>
 
+<div id="TOC">
+<ul>
+<li><a href="#download-via-hpc-bulk-download">Download via HPC (bulk download)</a><ul>
+<li><a href="#context">Context</a></li>
+<li><a href="#instructions">Instructions</a></li>
+<li><a href="#common-issues-and-problems">Common Issues and Problems</a></li>
+</ul></li>
+<li><a href="#download-via-rpythonbash">Download via R/Python/bash</a><ul>
+<li><a href="#getting-started">Getting started</a></li>
+<li><a href="#searching-the-ckan-archive">Searching the CKAN archive</a></li>
+<li><a href="#downloading-data-from-the-ckan-archive">Downloading data from the CKAN archive</a></li>
+<li><a href="#advanced-integrations-with-the-archive">Advanced integrations with the archive</a></li>
+</ul></li>
+</ul>
+</div>
 
 <style type="text/css">
 .main-container {
   max-width: 1500px;
 }
 </style>
+<div id="download-via-hpc-bulk-download" class="section level1">
+<h1>Download via HPC (bulk download)</h1>
+<div id="context" class="section level2">
+<h2>Context</h2>
+<p>This guide is intended to capture download to a desktop workstation. Please note, the <code>download.sh</code> file described in step 12 below can be used for direct download of portal data to a high performance computing (HPC) environment.</p>
+</div>
+<div id="instructions" class="section level2">
+<h2>Instructions</h2>
+<ol style="list-style-type: decimal">
+<li>When you have found the data set(s) you would like to download, click bulk download</li>
+</ol>
+<p align="center">
+<img src="images/omg_download.png">
+</p>
+<ul>
+<li>This will generate a zip folder with the files you need to download the data</li>
+<li>Download and decompress this folder</li>
+<li>Inside there are the following files and folders:
+<ul>
+<li><code>package_metadata/</code></li>
+<li><code>resource_metadata/</code></li>
+<li><code>tmp/</code></li>
+<li><code>download.ps1</code></li>
+<li><code>download.sh</code></li>
+<li><code>README.txt</code></li>
+</ul></li>
+</ul>
+<ol start="2" style="list-style-type: decimal">
+<li><p><code>README.txt</code> provides instructions for data download: <strong>PLEASE READ THIS!</strong></p></li>
+<li><p><code>package_metadata</code> contains a spreadsheet file with the metadata relevant to the downloaded filtered data set</p></li>
+<li><p><code>resource_metada</code> contains a spreadsheet file with the metadata relevant to the files which comprise the filtered data set</p></li>
+<li><p>The <code>tmp/</code> folder contains:</p></li>
+</ol>
+<ul>
+<li><code>*_md5sum.txt</code>, where the * indicates the name of the downloaded data package</li>
+<li><code>*_urls.txt</code>, where the * indicates the urls for each data set in the downloaded package</li>
+</ul>
+<ol start="6" style="list-style-type: decimal">
+<li><code>download.ps1</code> and <code>download.sh</code> are shell scripts</li>
+</ol>
+<ul>
+<li><code>download.ps1</code>: Windows PowerShell script (see below), which when executed will download the files, and then checksum them. This is supported on a Microsoft system, and uses only PowerShell.</li>
+</ul>
+<pre><code>#!/usr/bin/env pwsh
+
+$apikey = $Env:CKAN_API_KEY
+if (!$apikey) {
+  &#39;Please set the CKAN_API_KEY environment variable.&#39;
+  &#39;&#39;
+  &#39;You can find your API Key by browsing to:&#39;
+  &#39;https://data.bioplatforms.com//user/[USERNAME]&#39;
+  &#39;&#39;
+  &#39;The API key has the format:&#39;
+  &#39;xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx&#39;
+  &#39;&#39;
+  &#39;To set the environment variable in Linux/MacOS/Unix, use:&#39;
+  &#39;export CKAN_API_KEY=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx&#39;
+  &#39;&#39;
+  &#39;On Microsoft Windows, within Powershell, use:&#39;
+  &#39;$env:CKAN_API_KEY=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx&#39;
+  exit 1
+}
+
+#
+# This PowerShell script was automatically generated.
+#
+
+function DownloadURL($url)
+{
+    $filename = $url.Substring($url.lastIndexOf(&#39;/&#39;) + 1)
+    if (Test-Path $filename) {
+        &quot;File already exists, skipping download: &quot; + $filename
+        return
+    }
+    $client = new-object System.Net.WebClient
+    if ($apikey) {
+        $client.Headers.Add(&#39;Authorization: &#39; + $apikey)
+    }
+    &quot;Downloading: &quot; + $filename
+    $client.DownloadFile($url, $filename)
+}
+
+function VerifyMD5([String]$filename, [String]$expected_md5)
+{
+    $md5hash = new-object -TypeName System.Security.Cryptography.MD5CryptoServiceProvider
+    try {
+        $actual_md5 = [System.BitConverter]::ToString($md5hash.ComputeHash([System.IO.File]::ReadAllBytes($filename))).Replace(&#39;-&#39;, &#39;&#39;).toLower();
+    } catch [System.IO.FileNotFoundException] {
+        $filename + &quot;: FAILED open or read&quot;
+        return
+    }
+    if ($actual_md5 -eq $expected_md5) {
+        $filename + &quot;: OK&quot;
+    } else {
+        $filename + &quot;: FAILED&quot;
+    }
+}
+
+&#39;Commencing bulk download of data from CKAN:&#39;
+&#39;&#39;
+
+$urls = Get-Content &#39;tmp/[DATA PACKAGE NAME]_urls.txt&#39;
+ForEach ($line in $urls) {
+    DownloadURL $line
+}
+
+&#39;File downloads complete.&#39;
+&#39;&#39;
+&#39;Verifying file checksums:&#39;
+&#39;&#39;
+$md5s = Get-Content &#39;tmp/[DATA PACKAGE NAME]_md5sum.txt&#39;
+ForEach ($line in $md5s) {
+    $md5, $filename = $line.Split(&quot; &quot;,[StringSplitOptions]&#39;RemoveEmptyEntries&#39;)
+    VerifyMD5 $filename $md5
+}</code></pre>
+<ul>
+<li><code>download.sh</code>: UNIX shell script (see below), which when executed will download the files, and then checksum them. This is supported on any Linux or MacOS/BSD system, so long as <code>curl</code> is installed.</li>
+</ul>
+<pre><code>#!/bin/sh
+
+#
+# This UNIX shell script was automatically generated.
+#
+
+if [ x&quot;$CKAN_API_KEY&quot; = &quot;x&quot; ]; then
+ echo &quot;Please set the CKAN_API_KEY environment variable.&quot;
+ echo
+ echo &quot;You can find your API Key by browsing to:&quot;
+ echo &quot;https://data.bioplatforms.com//user/[USERNAME]&quot;
+ echo
+ echo &quot;The API key has the format:&quot;
+ echo &quot;xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx&quot;
+ echo
+ echo &quot;To set the environment variable in Linux/MacOS/Unix, use:&quot;
+ echo &quot;export CKAN_API_KEY=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx&quot;
+ echo &quot;&quot;
+ exit 1
+fi
+
+
+if ! which curl &gt;/dev/null 2&gt;&amp;1; then
+ echo &quot;`curl` is not installed. Please install it.&quot;
+ echo
+ echo &quot;On MacOS, it can be installed via HomeBrew (https://brew.sh/)&quot;
+ echo &quot;using the command `brew install curl`&quot;
+ exit 1
+fi
+
+if ! which md5sum &gt;/dev/null 2&gt;&amp;1; then
+ echo &quot;`md5sum` is not installed. Please install it.&quot;
+ echo
+ echo &quot;On MacOS, it can be installed via HomeBrew (https://brew.sh/)&quot;
+ echo &quot;using the command `brew install md5sha1sum`&quot;
+ exit 1
+fi
+
+echo &quot;Downloading data&quot;
+while read URL; do
+   echo &quot;Downloading: $URL&quot;
+   curl -O -L -C - -H &quot;Authorization: $CKAN_API_KEY&quot; &quot;$URL&quot;
+done &lt; tmp/[DATA PACKAGE NAME]_urls.txt
+
+echo &quot;Data download complete. Verifying checksums:&quot;
+md5sum -c tmp/[DATA PACKAGE NAME]_md5sum.txt 2&gt;&amp;1 | tee tmp/md5sum.log</code></pre>
+<ol start="7" style="list-style-type: decimal">
+<li>When you run <code>download.sh</code> or <code>download.ps1</code>, it will provide instructions to set up your API key</li>
+<li>Set up API key</li>
+<li>Run <code>downloads.sh</code> or <code>downloads.ps1</code> again</li>
+<li>The data should now download and checksum</li>
+</ol>
+</div>
+<div id="common-issues-and-problems" class="section level2">
+<h2>Common Issues and Problems</h2>
+<div id="download.sh---md5-sums-do-not-validate-correctly-and-files-are-not-correct-size" class="section level3">
+<h3>download.sh - MD5 sums do not validate correctly and files are not correct size</h3>
+<ul>
+<li>Check that you are running a recent version of curl. The Bioplatforms Data Portal requires version 7.58 or later (due to a bug fix with the Authorization header). Run <code>curl --version</code> to check.</li>
+<li>Check that your PATH contains the correct version of curl. Run <code>which curl</code> to check.</li>
+</ul>
+<hr />
+<hr />
+</div>
+</div>
+</div>
+<div id="download-via-rpythonbash" class="section level1">
+<h1>Download via R/Python/bash</h1>
 <p>The Bioplatforms Data Portal is based upon <a href="https://ckan.org/">CKAN</a>, an open source platform for sharing metadata and data. CKAN provides Application Programming Interfaces (APIs) which allow computer software to interact with the portal. It is possible for software to programmatically do everything you can do manually by using the portal in your web browser - including searching for data, downloading data, and even uploading data.</p>
 <p>This guide covers access to the portal using the R and Python programming languages, and via the command shell on your desktop computer (<code>bash</code> or <code>zsh</code>.)</p>
 <div id="getting-started" class="section level2">
 <h2>Getting started</h2>
 <p>When your computer program connects to the portal, it must identify itself. It will do this by sending an ‘API key’. You can find this key on the portal.</p>
 <ol style="list-style-type: decimal">
-<li>Go to the portal <a href="https://data.bioplatforms.com/" class="uri">https://data.bioplatforms.com/</a></li>
-<li>At the top right of the page, you will see either a prompt to log in, or your name</li>
-<li>Log in, if required, and then click on your name</li>
-<li>Your API key will be visible in the sidebar</li>
+<li><p>Go to the portal <a href="https://data.bioplatforms.com/" class="uri">https://data.bioplatforms.com/</a></p></li>
+<li><p>At the top right of the page, you will see either a prompt to log in, or your name</p></li>
+<li><p>Log in, if required, and then click on your name</p></li>
+<li><p>Your API key will be visible in the sidebar</p></li>
 </ol>
 <p>If you are downloading or uploading large datasets from the portal, it is highly recommended that you do this from an appropriate environment, with a fast and reliable connection to the internet. Many institutions provide access to HPC nodes.</p>
 <div id="getting-started-r" class="section level3">
 <h3>Getting started: R</h3>
 <p>You will need access to an <a href="https://www.r-project.org">R</a> installation, either on your computer or on a HPC node.</p>
 <ol style="list-style-type: decimal">
-<li>Launch R, and</li>
-<li>Install the <a href="https://github.com/ropensci/ckanr">ckanr</a> bindings for CKAN:</li>
+<li><p>Launch R, and</p></li>
+<li><p>Install the <a href="https://github.com/ropensci/ckanr">ckanr</a> bindings for CKAN:</p></li>
 </ol>
 <pre><code>&gt; install.packages(&quot;devtools&quot;)
 &gt; library(&quot;devtools&quot;)
@@ -252,8 +453,8 @@ $ pip install requests</code></pre>
 </ul>
 <p>It is helpful to be aware of two key concepts which the Data Portal uses:</p>
 <ol style="list-style-type: decimal">
-<li>Packages: a package is a collection of zero or more <em>resources</em>. It is effectively a flat folder, with metadata.</li>
-<li>Resources: a resource is a file, with its associated metadata, including its type and size</li>
+<li><p>Packages: a package is a collection of zero or more <em>resources</em>. It is effectively a flat folder, with metadata.</p></li>
+<li><p>Resources: a resource is a file, with its associated metadata, including its type and size</p></li>
 </ol>
 <p>The following sections contain example code snippets demonstrating how to search for all ‘amplicon’ data from the Australian Microbiome Framework Initiative. The Bioplatforms Australia Data Portal allows up to 50,000 search results to be returned at a time. The results returned will contain the <em>package</em> and <em>resource</em> metadata for each ‘amplicon’ dataset.</p>
 <p>The list of all data types, and their associated schemas, are in the <a href="https://github.com/BioplatformsAustralia/ckanext-bpatheme/tree/master/ckanext/bpatheme">ckanext-bpatheme</a> repository on Github. Each data type has a JSON schema file in that directory. <strong>Make sure to change to delimiter from <code>_</code> (underscore) to <code>-</code> (hyphen) prior to trying a programmatic search.</strong></p>
@@ -381,6 +582,7 @@ for package in result[&#39;results&#39;]:
         resp = requests.get(resource[&#39;url&#39;], headers={&#39;Authorization&#39;: remote.apikey})
         with open(target, &#39;wu&#39;) as fd:
             fd.write(resp.content)</code></pre>
+</div>
 </div>
 
 

@@ -11,7 +11,7 @@
 
 
 
-<title>Find, filter and download Framework Initiative data</title>
+<title>Find and filter Framework Initiative data</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -26,9 +26,9 @@
 
 <div class="sidenav">
   <a href="index.html">Home</a>
-  <a href="registration_login.html">How to register for an account and log-in</a>
-  <a href="find_filter_download.html">How to find, filter and bulk download data and meta-data</a>
-  <a href="programmatic_access.html">Programmatic access to the Bioplatforms Data Portal</a>
+  <a href="registration_login.html">Register and log-in</a>
+  <a href="find_filter_download.html">Find and filter</a>
+  <a href="programmatic_access.html">Download data and meta-data</a>
   <a href="metadata_filter_ausmicrobiome.html">How to filter Australian Microbiome data</a>
 </div>
 
@@ -196,215 +196,113 @@ summary {
 
 
 
-<h1 class="title toc-ignore">Find, filter and download Framework Initiative data</h1>
+<h1 class="title toc-ignore">Find and filter Framework Initiative data</h1>
 
 </div>
 
+<div id="TOC">
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#search-box">Search box</a></li>
+<li><a href="#meta-data-fields-available-for-search">Meta-data fields available for search</a></li>
+<li><a href="#simple-search">Simple search</a></li>
+<li><a href="#advanced-search-for-specific-meta-data-fields">Advanced search for specific meta-data fields</a></li>
+<li><a href="#advanced-search-across-multiple-meta-data-fields">Advanced search across multiple meta-data fields</a></li>
+<li><a href="#acknowledgements">Acknowledgements</a></li>
+</ul>
+</div>
 
 <style type="text/css">
 .main-container {
   max-width: 1500px;
 }
 </style>
-<div id="context" class="section level3">
-<h3>Context</h3>
-<p>This guide is intended to capture download to a desktop workstation. Please note, the <code>download.sh</code> file described in step 12 below can be used for direct download of portal data to a high performance computing (HPC) environment.</p>
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<p>The instructions here provide clarity regarding how to effectively search the Bioplatforms data portal, and obtain search results that are either specific to a certain meta-data field (e.g. <code>flowcell_id</code>), or which can capture the existence of search values across meta-data fields.</p>
+<p>When you have found the data set(s) you were looking for, it’s time to <a href="programmatic_access.md">download</a>.</p>
 </div>
-<div id="instructions" class="section level3">
-<h3>Instructions</h3>
+<div id="search-box" class="section level1">
+<h1>Search box</h1>
+<p>The query terms for any search should be entered into the “Search” box, which appears on the landing pages for each Framework Initiative on the data portal.</p>
+<p align="center">
+<img src="images/search_1.png">
+</p>
+<p>The proper syntax for a data portal search is <code>[meta-data field name]:[value]</code>. Examples are provided in each of the sections below.</p>
+<p><strong>Note</strong>: there are two search modes that can be used for the data portal.</p>
 <ol style="list-style-type: decimal">
-<li>Go to the Data portal page</li>
-<li>Log-in using your username and password (created during <a href="registration_login.md">registration</a>)
-<ul>
-<li>Login is required for full functionality including access to datasets</li>
-</ul></li>
-<li>Select the banner or text link for the Framework Initiative of interest: e.g. <a href="https://ozmammalsgenomics.com/">Oz Mammals Genomics</a></li>
-</ol>
-<p><img src="images/omg_banner.png" /></p>
-<ol start="4" style="list-style-type: decimal">
-<li>Use the <code>Search datasets…</code> field textbox to search for the data you want (e.g. PacBio Dunnart)</li>
-</ol>
-<p align="center">
-<img src="images/omg_search.png">
-</p>
-<ol start="5" style="list-style-type: decimal">
-<li>To narrow search results further, use the Tags in the left column, which will filter the data (see image below)</li>
-</ol>
-<p align="center">
-<img src="images/omg_tags.png">
-</p>
-<ol start="6" style="list-style-type: decimal">
-<li>When you have the files you want on the search page, click bulk download</li>
-</ol>
-<p align="center">
-<img src="images/omg_download.png">
-</p>
-<ul>
-<li>This will generate a zip folder with the files you need to download the data</li>
-<li>Download and decompress this folder</li>
-<li>Inside there are the following files and folders:
-<ul>
-<li><code>package_metadata/</code></li>
-<li><code>resource_metadata/</code></li>
-<li><code>tmp/</code></li>
-<li><code>download.ps1</code></li>
-<li><code>download.sh</code></li>
-<li><code>README.txt</code></li>
-</ul></li>
-</ul>
-<ol start="7" style="list-style-type: decimal">
-<li><code>README.txt</code> provides instructions for data download: <strong>PLEASE READ THIS!</strong></li>
-<li><code>package_metadata</code> contains a spreadsheet file with the metadata relevant to the downloaded filtered data set</li>
-<li><code>resource_metada</code> contains a spreadsheet file with the metadata relevant to the files which comprise the filtered data set</li>
-<li>The <code>tmp/</code> folder contains:</li>
-</ol>
-<ul>
-<li><code>*_md5sum.txt</code>, where the * indicates the name of the downloaded data package</li>
-<li><code>*_urls.txt</code>, where the * indicates the urls for each data set in the downloaded package</li>
-</ul>
-<ol start="11" style="list-style-type: decimal">
-<li><code>download.ps1</code> and <code>download.sh</code> are shell scripts</li>
-</ol>
-<ul>
-<li><code>download.ps1</code>: Windows PowerShell script (see below), which when executed will download the files, and then checksum them. This is supported on a Microsoft system, and uses only PowerShell.</li>
-</ul>
-<pre><code>#!/usr/bin/env pwsh
-
-$apikey = $Env:CKAN_API_KEY
-if (!$apikey) {
-  &#39;Please set the CKAN_API_KEY environment variable.&#39;
-  &#39;&#39;
-  &#39;You can find your API Key by browsing to:&#39;
-  &#39;https://data.bioplatforms.com//user/[USERNAME]&#39;
-  &#39;&#39;
-  &#39;The API key has the format:&#39;
-  &#39;xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx&#39;
-  &#39;&#39;
-  &#39;To set the environment variable in Linux/MacOS/Unix, use:&#39;
-  &#39;export CKAN_API_KEY=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx&#39;
-  &#39;&#39;
-  &#39;On Microsoft Windows, within Powershell, use:&#39;
-  &#39;$env:CKAN_API_KEY=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx&#39;
-  exit 1
-}
-
-#
-# This PowerShell script was automatically generated.
-#
-
-function DownloadURL($url)
-{
-    $filename = $url.Substring($url.lastIndexOf(&#39;/&#39;) + 1)
-    if (Test-Path $filename) {
-        &quot;File already exists, skipping download: &quot; + $filename
-        return
-    }
-    $client = new-object System.Net.WebClient
-    if ($apikey) {
-        $client.Headers.Add(&#39;Authorization: &#39; + $apikey)
-    }
-    &quot;Downloading: &quot; + $filename
-    $client.DownloadFile($url, $filename)
-}
-
-function VerifyMD5([String]$filename, [String]$expected_md5)
-{
-    $md5hash = new-object -TypeName System.Security.Cryptography.MD5CryptoServiceProvider
-    try {
-        $actual_md5 = [System.BitConverter]::ToString($md5hash.ComputeHash([System.IO.File]::ReadAllBytes($filename))).Replace(&#39;-&#39;, &#39;&#39;).toLower();
-    } catch [System.IO.FileNotFoundException] {
-        $filename + &quot;: FAILED open or read&quot;
-        return
-    }
-    if ($actual_md5 -eq $expected_md5) {
-        $filename + &quot;: OK&quot;
-    } else {
-        $filename + &quot;: FAILED&quot;
-    }
-}
-
-&#39;Commencing bulk download of data from CKAN:&#39;
-&#39;&#39;
-
-$urls = Get-Content &#39;tmp/[DATA PACKAGE NAME]_urls.txt&#39;
-ForEach ($line in $urls) {
-    DownloadURL $line
-}
-
-&#39;File downloads complete.&#39;
-&#39;&#39;
-&#39;Verifying file checksums:&#39;
-&#39;&#39;
-$md5s = Get-Content &#39;tmp/[DATA PACKAGE NAME]_md5sum.txt&#39;
-ForEach ($line in $md5s) {
-    $md5, $filename = $line.Split(&quot; &quot;,[StringSplitOptions]&#39;RemoveEmptyEntries&#39;)
-    VerifyMD5 $filename $md5
-}</code></pre>
-<ul>
-<li><code>download.sh</code>: UNIX shell script (see below), which when executed will download the files, and then checksum them. This is supported on any Linux or MacOS/BSD system, so long as <code>curl</code> is installed.</li>
-</ul>
-<pre><code>#!/bin/sh
-
-#
-# This UNIX shell script was automatically generated.
-#
-
-if [ x&quot;$CKAN_API_KEY&quot; = &quot;x&quot; ]; then
- echo &quot;Please set the CKAN_API_KEY environment variable.&quot;
- echo
- echo &quot;You can find your API Key by browsing to:&quot;
- echo &quot;https://data.bioplatforms.com//user/[USERNAME]&quot;
- echo
- echo &quot;The API key has the format:&quot;
- echo &quot;xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx&quot;
- echo
- echo &quot;To set the environment variable in Linux/MacOS/Unix, use:&quot;
- echo &quot;export CKAN_API_KEY=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx&quot;
- echo &quot;&quot;
- exit 1
-fi
-
-
-if ! which curl &gt;/dev/null 2&gt;&amp;1; then
- echo &quot;`curl` is not installed. Please install it.&quot;
- echo
- echo &quot;On MacOS, it can be installed via HomeBrew (https://brew.sh/)&quot;
- echo &quot;using the command `brew install curl`&quot;
- exit 1
-fi
-
-if ! which md5sum &gt;/dev/null 2&gt;&amp;1; then
- echo &quot;`md5sum` is not installed. Please install it.&quot;
- echo
- echo &quot;On MacOS, it can be installed via HomeBrew (https://brew.sh/)&quot;
- echo &quot;using the command `brew install md5sha1sum`&quot;
- exit 1
-fi
-
-echo &quot;Downloading data&quot;
-while read URL; do
-   echo &quot;Downloading: $URL&quot;
-   curl -O -L -C - -H &quot;Authorization: $CKAN_API_KEY&quot; &quot;$URL&quot;
-done &lt; tmp/[DATA PACKAGE NAME]_urls.txt
-
-echo &quot;Data download complete. Verifying checksums:&quot;
-md5sum -c tmp/[DATA PACKAGE NAME]_md5sum.txt 2&gt;&amp;1 | tee tmp/md5sum.log</code></pre>
-<ol start="12" style="list-style-type: decimal">
-<li>When you run <code>download.sh</code> or <code>download.ps1</code>, it will provide instructions to set up your API key</li>
-<li>Set up API key</li>
-<li>Run <code>downloads.sh</code> or <code>downloads.ps1</code> again</li>
-<li>The data should now download and checksum</li>
+<li><strong>Simple</strong>: no colon is used, simply enter the search words</li>
+<li><strong>Advanced</strong>: at least one colon present, with numerous options possible including boolean operators (<code>AND</code> / <code>OR</code> / <code>NOT</code> / <code>+</code> / <code>-</code> )</li>
 </ol>
 </div>
-<div id="common-issues-and-problems" class="section level3">
-<h3>Common Issues and Problems</h3>
-<div id="download.sh---md5-sums-do-not-validate-correctly-and-files-are-not-correct-size" class="section level4">
-<h4>download.sh - MD5 sums do not validate correctly and files are not correct size</h4>
+<div id="meta-data-fields-available-for-search" class="section level1">
+<h1>Meta-data fields available for search</h1>
+<p>For the Oz Mammals Genomics example above, some common meta-data fields that may be of interest are:</p>
 <ul>
-<li>Check that you are running a recent version of curl. The Bioplatforms Data Portal requires version 7.58 or later (due to a bug fix with the Authorization header). Run <code>curl --version</code> to check.</li>
-<li>Check that your PATH contains the correct version of curl. Run <code>which curl</code> to check.</li>
+<li><code>bpa_dataset_id</code>: Bioplatforms Australia dataset ID for this sequencing run</li>
+<li><code>bpa_library_id</code>: Bioplatforms Australia library ID for this library prep</li>
+<li><code>bpa_sample_id</code>: unique identifier from Bioplatforms Australia, assigned to the material sample</li>
+<li><code>class</code>: the full scientific name of the class in which the taxon is classified</li>
+<li><code>common_name</code>: common name of the species</li>
+<li><code>data_type</code></li>
+<li><code>family</code>: the full scientific name of the family in which the taxon is classified</li>
+<li><code>order</code>: the full scientific name of the order in which the taxon is classified</li>
+<li><code>phylum</code>: the full scientific name of the phylum in which the taxon is classified</li>
+<li><code>genus</code>: the full scientific name of the genus in which the taxon is classified</li>
+<li><code>species</code>: the name of the first or species epithet of the scientific name</li>
+<li><code>subspecies</code>: if relevant, the name of the lowest or terminal infraspecific epithet of the scientific name, excluding any rank designation, e.g. subspecies</li>
+<li><code>library_type</code>: type of library prepared (exon, capture, ddRAD etc.)</li>
+<li><code>life_stage</code>: the age class or life stage of the animal at the time of sampling</li>
+<li><code>omg_project</code>: name of OMG project this work relates to (e.g. Phylogenomics)</li>
+<li><code>sequencing_facility</code>: name of the sequencing facility</li>
+<li><code>sequencing_platform</code>: name of sequencing platform used</li>
+<li><code>sex</code>: the sex of the animal</li>
+<li><code>tissue_type</code>: the type of tissue or substance sampled</li>
+</ul>
+<p><strong>Note</strong>: many more fields are in active use at any one time and these will vary slightly for each Framework Initiative. You can find a list of these fields by clicking on a relevant dataset and scrolling down to the ‘Additional Info’ table.</p>
+</div>
+<div id="simple-search" class="section level1">
+<h1>Simple search</h1>
+<p>To conduct a broad search, simply type a keyword into the search bar. This type of search will look for that keyword anywhere in the database and is more suited for initial discovery searches to gain an appreciation for the resources available through any one Framework Initiative.</p>
+<p>For example, if you search the OMG section of the portal for data sets using the keyword “Dunnart”, the following occurs:</p>
+<ul>
+<li>33 data sets were discoverable (2020-10-14)</li>
+<li>These are split across multiple <code>data_types</code> and <code>omg_project</code> values</li>
+</ul>
+<p align="center">
+<img src="images/search_2.png">
+</p>
+</div>
+<div id="advanced-search-for-specific-meta-data-fields" class="section level1">
+<h1>Advanced search for specific meta-data fields</h1>
+<p>If the values of interest are known, it is better to search for specific values (e.g. “Fat-tailed Dunnart”) in a single defined meta-data field (e.g. <code>common_name</code>).</p>
+<p>The format for this is <code>field:[”value”]</code></p>
+<p>For example, if you wanted to search for all data sets that were produced using a specific <code>sequencing_platform</code> making use of the accepted Bioplatforms sequencing platform ontology (e.g. searching for “PacBio Sequel”), your search syntax would look like this:</p>
+<pre><code>sequencing_platform:&quot;PacBio Sequel&quot;</code></pre>
+<p><strong>Note</strong>: make sure you include the apostrophes!</p>
+<p>Here, 4 data sets are located, each of which used the PacBio Sequel instrument as the <code>sequencing_platform</code>.</p>
+<p align="center">
+<img src="images/search_3.png">
+</p>
+</div>
+<div id="advanced-search-across-multiple-meta-data-fields" class="section level1">
+<h1>Advanced search across multiple meta-data fields</h1>
+<p>If you wanted to search across multiple meta-data fields, and each search term was mandatory / required, the search syntax would look like this:</p>
+<pre><code>[meta-data field name]:[value] AND [meta-data field name]:[value]</code></pre>
+<p>For example, to identify a specific combination of genus and species:</p>
+<pre><code>genus:Sminthopsis AND species:crassicaudata</code></pre>
+<p>This is useful as it distinguishes datasets for the genus Sminthopsis, for which there are 5 species available, including:</p>
+<ul>
+<li><em>Sminthopsis dolichura</em>,</li>
+<li><em>Sminthopsis gilberti</em>,</li>
+<li><em>Sminthopsis granulipes</em>,</li>
+<li><em>Sminthopsis longicaudata</em>, in addition to</li>
+<li><em>Sminthopsis crassicaudata</em></li>
 </ul>
 </div>
+<div id="acknowledgements" class="section level1">
+<h1>Acknowledgements</h1>
+<p>Source material for <a href="https://gist.github.com/davidmiller/f22c2dcb347f3dbc4b16cb8a4bddbc04">CKAN search instructions</a></p>
 </div>
 
 
