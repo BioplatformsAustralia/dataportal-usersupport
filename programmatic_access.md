@@ -1,5 +1,5 @@
 ---
-title: "Programmatic access to the Bioplatforms Data Portal"
+title: "Download Framework Initiative data"
 ---
 
 <style type="text/css">
@@ -7,6 +7,191 @@ title: "Programmatic access to the Bioplatforms Data Portal"
   max-width: 1500px;
 }
 </style>
+
+
+# Download via HPC (bulk download)
+
+## Context
+
+This guide is intended to capture download to a desktop workstation. Please note, the `download.sh` file described in step 12 below can be used for direct download of portal data to a high performance computing (HPC) environment.
+
+## Instructions
+
+1. When you have found the data set(s) you would like to download, click bulk download
+
+<p align="center">
+<img src="images/omg_download.png">
+</p>
+     
+   - This will generate a zip folder with the files you need to download the data
+   - Download and decompress this folder
+   - Inside there are the following files and folders:
+       - `package_metadata/`
+       - `resource_metadata/`
+       - `tmp/`
+       - `download.ps1`
+       - `download.sh`
+       - `README.txt`
+
+2. `README.txt` provides instructions for data download: **PLEASE READ THIS!**
+
+3. `package_metadata` contains a spreadsheet file with the metadata relevant to the downloaded filtered data set
+
+4. `resource_metada` contains a spreadsheet file with the metadata relevant to the files which comprise the filtered data set
+
+5. The `tmp/` folder contains:
+
+- `*_md5sum.txt`, where the * indicates the name of the downloaded data package
+- `*_urls.txt`, where the * indicates the urls for each data set in the downloaded package
+
+6. `download.ps1` and `download.sh` are shell scripts 
+   
+- `download.ps1`: Windows PowerShell script (see below), which when executed will download the files, and then checksum them. This is supported on a Microsoft system, and uses only PowerShell.
+
+```
+#!/usr/bin/env pwsh
+
+$apikey = $Env:CKAN_API_KEY
+if (!$apikey) {
+  'Please set the CKAN_API_KEY environment variable.'
+  ''
+  'You can find your API Key by browsing to:'
+  'https://data.bioplatforms.com//user/[USERNAME]'
+  ''
+  'The API key has the format:'
+  'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'
+  ''
+  'To set the environment variable in Linux/MacOS/Unix, use:'
+  'export CKAN_API_KEY=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'
+  ''
+  'On Microsoft Windows, within Powershell, use:'
+  '$env:CKAN_API_KEY=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'
+  exit 1
+}
+
+#
+# This PowerShell script was automatically generated.
+#
+
+function DownloadURL($url)
+{
+    $filename = $url.Substring($url.lastIndexOf('/') + 1)
+    if (Test-Path $filename) {
+        "File already exists, skipping download: " + $filename
+        return
+    }
+    $client = new-object System.Net.WebClient
+    if ($apikey) {
+        $client.Headers.Add('Authorization: ' + $apikey)
+    }
+    "Downloading: " + $filename
+    $client.DownloadFile($url, $filename)
+}
+
+function VerifyMD5([String]$filename, [String]$expected_md5)
+{
+    $md5hash = new-object -TypeName System.Security.Cryptography.MD5CryptoServiceProvider
+    try {
+        $actual_md5 = [System.BitConverter]::ToString($md5hash.ComputeHash([System.IO.File]::ReadAllBytes($filename))).Replace('-', '').toLower();
+    } catch [System.IO.FileNotFoundException] {
+        $filename + ": FAILED open or read"
+        return
+    }
+    if ($actual_md5 -eq $expected_md5) {
+        $filename + ": OK"
+    } else {
+        $filename + ": FAILED"
+    }
+}
+
+'Commencing bulk download of data from CKAN:'
+''
+
+$urls = Get-Content 'tmp/[DATA PACKAGE NAME]_urls.txt'
+ForEach ($line in $urls) {
+    DownloadURL $line
+}
+
+'File downloads complete.'
+''
+'Verifying file checksums:'
+''
+$md5s = Get-Content 'tmp/[DATA PACKAGE NAME]_md5sum.txt'
+ForEach ($line in $md5s) {
+    $md5, $filename = $line.Split(" ",[StringSplitOptions]'RemoveEmptyEntries')
+    VerifyMD5 $filename $md5
+}
+```
+
+   - `download.sh`: UNIX shell script (see below), which when executed will download the files, and then checksum them. This is supported on any Linux or MacOS/BSD system, so long as `curl` is installed.
+ 
+ ```
+#!/bin/sh
+
+#
+# This UNIX shell script was automatically generated.
+#
+
+if [ x"$CKAN_API_KEY" = "x" ]; then
+  echo "Please set the CKAN_API_KEY environment variable."
+  echo
+  echo "You can find your API Key by browsing to:"
+  echo "https://data.bioplatforms.com//user/[USERNAME]"
+  echo
+  echo "The API key has the format:"
+  echo "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+  echo
+  echo "To set the environment variable in Linux/MacOS/Unix, use:"
+  echo "export CKAN_API_KEY=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+  echo ""
+  exit 1
+fi
+
+
+if ! which curl >/dev/null 2>&1; then
+  echo "`curl` is not installed. Please install it."
+  echo
+  echo "On MacOS, it can be installed via HomeBrew (https://brew.sh/)"
+  echo "using the command `brew install curl`"
+  exit 1
+fi
+
+if ! which md5sum >/dev/null 2>&1; then
+  echo "`md5sum` is not installed. Please install it."
+  echo
+  echo "On MacOS, it can be installed via HomeBrew (https://brew.sh/)"
+  echo "using the command `brew install md5sha1sum`"
+  exit 1
+fi
+
+echo "Downloading data"
+while read URL; do
+    echo "Downloading: $URL"
+    curl -O -L -C - -H "Authorization: $CKAN_API_KEY" "$URL"
+done < tmp/[DATA PACKAGE NAME]_urls.txt
+
+echo "Data download complete. Verifying checksums:"
+md5sum -c tmp/[DATA PACKAGE NAME]_md5sum.txt 2>&1 | tee tmp/md5sum.log
+```
+
+7. When you run `download.sh` or `download.ps1`, it will provide instructions to set up your API key
+8. Set up API key
+9. Run `downloads.sh` or `downloads.ps1` again
+10. The data should now download and checksum
+
+## Common Issues and Problems
+
+### download.sh - MD5 sums do not validate correctly and files are not correct size
+
+* Check that you are running a recent version of curl.   The Bioplatforms Data Portal requires version 7.58 or later
+  (due to a bug fix with the Authorization header).  Run `curl --version` to check.
+* Check that your PATH contains the correct version of curl.  Run `which curl` to check.
+
+---
+
+---
+
+# Download via R/Python/bash
 
 The Bioplatforms Data Portal is based upon [CKAN](https://ckan.org/), an open source platform for sharing metadata and data. CKAN provides Application Programming Interfaces (APIs) which allow computer software to interact with the portal. It is possible for software to programmatically do everything you can do manually by using the portal in your web browser - including searching for data, downloading data, and even uploading data.
 
@@ -17,8 +202,11 @@ This guide covers access to the portal using the R and Python programming langua
 When your computer program connects to the portal, it must identify itself. It will do this by sending an 'API key'. You can find this key on the portal.
 
 1. Go to the portal https://data.bioplatforms.com/
+
 2. At the top right of the page, you will see either a prompt to log in, or your name 
+
 3. Log in, if required, and then click on your name
+
 4. Your API key will be visible in the sidebar
 
 If you are downloading or uploading large datasets from the portal, it is highly recommended that you do this from an appropriate environment, with a fast and reliable connection to the internet. Many institutions provide access to HPC nodes.
@@ -28,6 +216,7 @@ If you are downloading or uploading large datasets from the portal, it is highly
 You will need access to an [R](https://www.r-project.org) installation, either on your computer or on a HPC node.
 
 1. Launch R, and 
+
 2. Install the [ckanr](https://github.com/ropensci/ckanr) bindings for CKAN:
 
 ```
@@ -65,6 +254,7 @@ This may be of use when:
 It is helpful to be aware of two key concepts which the Data Portal uses:
 
 1. Packages: a package is a collection of zero or more *resources*. It is effectively a flat folder, with metadata.
+
 2. Resources: a resource is a file, with its associated metadata, including its type and size
 
 The following sections contain example code snippets demonstrating how to search for all 'amplicon' data from the Australian Microbiome Framework Initiative. The Bioplatforms Australia Data Portal allows up to 50,000 search results to be returned at a time. The results returned will contain the *package* and *resource* metadata for each 'amplicon' dataset.

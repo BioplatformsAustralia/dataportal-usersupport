@@ -4,5 +4,7 @@ output:
   html_document:
     theme: cosmo
     css: styles.css
+    toc: true
+    toc_depth: 2
     includes:
       in_header: header.html

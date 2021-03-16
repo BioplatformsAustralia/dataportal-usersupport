@@ -10,6 +10,10 @@ title: "Registration and log-in"
 
 1. Go to the [Registration page](https://data.bioplatforms.com/user/register) and create an account
 
+<p align="center">
+<img src="images/register.png">
+</p>
+
 2. You will need the following information:
 
      - Username
