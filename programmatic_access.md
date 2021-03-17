@@ -13,7 +13,7 @@ title: "Download Framework Initiative data"
 
 ## Context
 
-This guide is intended to capture download to a desktop workstation. Please note, the `download.sh` file described in step 12 below can be used for direct download of portal data to a high performance computing (HPC) environment.
+This guide is intended to capture download to a desktop workstation, or direct download of portal data to a high performance computing (HPC) environment (as in step 6 below).
 
 ## Instructions
 
