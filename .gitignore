@@ -37,3 +37,12 @@ vignettes/*.pdf
 
 # R Environment Variables
 .Renviron
+
+# Jekyll Theming
+
+.jekyll-cache/
+.sass-cache/
+.jekyll-metadata
+.bundle/
+vendor/
+_site/

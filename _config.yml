@@ -1,0 +1,22 @@
+### Site metadata ###
+
+title: Bioplatforms Australia Data Portal User Support
+description: "User Support"
+
+github_username: BioplatformsAustralia
+
+### Build settings ###
+
+url: https://bioplatformsaustralia.github.io
+baseurl: /dataportal-usersupport
+
+remote_theme: BioplatformsAustralia/jekyll-theme-bpa
+
+plugins:
+  - jekyll-remote-theme
+
+exclude:
+  - vendor/
+  - README.md
+  - Gemfile
+
