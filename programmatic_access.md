@@ -1,21 +1,14 @@
 ---
-title: "Download Framework Initiative data"
+title: "Download data and meta-data"
 ---
 
-<style type="text/css">
-.main-container {
-  max-width: 1500px;
-}
-</style>
+## Download via HPC (bulk download)
 
-
-# Download via HPC (bulk download)
-
-## Context
+### Context
 
 This guide is intended to capture download to a desktop workstation, or direct download of portal data to a high performance computing (HPC) environment (as in step 6 below).
 
-## Instructions
+### Instructions
 
 1. When you have found the data set(s) you would like to download, click bulk download
 
@@ -42,41 +35,40 @@ This guide is intended to capture download to a desktop workstation, or direct d
 
 5. The `tmp/` folder contains:
 
-- `*_md5sum.txt`, where the * indicates the name of the downloaded data package
-- `*_urls.txt`, where the * indicates the urls for each data set in the downloaded package
+   - `*_md5sum.txt`, where the * indicates the name of the downloaded data package
+   - `*_urls.txt`, where the * indicates the urls for each data set in the downloaded package
 
 6. `download.py`, `download.ps1` and `download.sh` are scripts in Python, Powershell and bash
    
-- `download.py`: Python 3 script, which when executed will download the files, and then checksum them. This is supported on all platforms (Windows, Linux, MacOS).  Requires Python 3 and the `requests` module to be installed.
+   - `download.py`: Python 3 script, which when executed will download the files, and then checksum them. This is supported on all platforms (Windows, Linux, MacOS).  Requires Python 3 and the `requests` module to be installed.
 
-- `download.ps1`: Windows PowerShell script, which when executed will download the files, and then checksum them. This is supported on a Microsoft system, and uses only PowerShell.
+   - `download.ps1`: Windows PowerShell script, which when executed will download the files, and then checksum them. This is supported on a Microsoft system, and uses only PowerShell.
 
-- `download.sh`: UNIX shell script,  which when executed will download the files, and then checksum them. This is supported on any Linux or MacOS/BSD system, so long as `curl` is installed.
+   - `download.sh`: UNIX shell script,  which when executed will download the files, and then checksum them. This is supported on any Linux or MacOS/BSD system, so long as `curl` is installed.
  
-7. When you run `donwload.py`, `download.sh` or `download.ps1`, it will provide instructions to set up your API key
+7. When you run `download.py`, `download.sh` or `download.ps1`, it will provide instructions to set up your API key
 8. Set up API key
 9. Run `downloads.sh` or `downloads.ps1` again
 10. The data should now download and checksum
 
-## Common Issues and Problems
+### Common Issues and Problems
 
-### download.sh - MD5 sums do not validate correctly and files are not correct size
+#### download.sh - MD5 sums do not validate correctly and files are not correct size
 
 * Check that you are running a recent version of curl.   The Bioplatforms Data Portal requires version 7.58 or later
   (due to a bug fix with the Authorization header).  Run `curl --version` to check.
 * Check that your PATH contains the correct version of curl.  Run `which curl` to check.
 
----
 
 ---
 
-# Download via R/Python/bash
+## Programmatic Download via R/Python/bash
 
 The Bioplatforms Data Portal is based upon [CKAN](https://ckan.org/), an open source platform for sharing metadata and data. CKAN provides Application Programming Interfaces (APIs) which allow computer software to interact with the portal. It is possible for software to programmatically do everything you can do manually by using the portal in your web browser - including searching for data, downloading data, and even uploading data.
 
 This guide covers access to the portal using the R and Python programming languages, and via the command shell on your desktop computer (`bash` or `zsh`.)
 
-## Getting started
+### Getting started
 
 When your computer program connects to the portal, it must identify itself. It will do this by sending an 'API key'. You can find this key on the portal.
 
@@ -91,7 +83,7 @@ When your computer program connects to the portal, it must identify itself. It w
 
 If you are downloading or uploading large datasets from the portal, it is highly recommended that you do this from an appropriate environment, with a fast and reliable connection to the internet. Many institutions provide access to HPC nodes.
 
-### Getting started: R
+#### Getting started: R
 
 You will need access to an [R](https://www.r-project.org) installation, either on your computer or on a HPC node.
 
@@ -105,7 +97,7 @@ You will need access to an [R](https://www.r-project.org) installation, either o
 > install_github("ropensci/ckanr")
 ```
 
-### Getting started: Python
+#### Getting started: Python
 
 You will need access to a [Python](https://www.python.org) installation, either on your computer or on a HPC node. **Note:** Python is installed by default on MacOS and most Linux systems. The examples given here are for Python version 3.7 or higher.
 
@@ -116,13 +108,13 @@ $ pip install ckanapi
 $ pip install requests
 ```
 
-### Getting started: Bash
+#### Getting started: Bash
 
 You will need [curl](https://curl.haxx.se/) installed. **Note:** Curl is installed by default on MacOS and most Linux systems. For Windows, you can easily install it using the [Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/), or [chocolatey](https://chocolatey.org/).
 
 You will also need [jq](https://stedolan.github.io/jq/) installed - it is including in most Linux distributions, and is available via [homebrew](https://brew.sh/) on MacOS.
 
-## Searching the CKAN archive
+### Searching the CKAN archive
 
 CKAN makes it possible to query datasets and resources programmatically.
 
@@ -149,7 +141,7 @@ The list of all data types, and their associated schemas, are in the [ckanext-bp
 For example:
 ![](programmatic_access.png)
 
-### Searching: Python
+#### Searching: Python
 
 ```python
 import ckanapi
@@ -163,7 +155,7 @@ result = remote.action.package_search(
 print("{} matches found.".format(result['count']))
 ```
 
-### Searching: R
+#### Searching: R
 
 ```R
 library(ckanr)
@@ -173,21 +165,21 @@ x <- package_search(q='type:amdb-genomics-amplicon', rows=50000, include_private
 print(x$count)
 ```
 
-### Searching: bash
+#### Searching: bash
 
 ```bash
 export CKAN_API_KEY="xx-xx-xx-xx-xx"
 curl -H "Authorization: "$CKAN_API_KEY" 'https://data.bioplatforms.com/api/3/action/package_search?q=type:amdb-genomics-amplicon&rows=50000&include_private=true'
 ```
 
-## Downloading data from the CKAN archive
+### Downloading data from the CKAN archive
 
 Once you have identified the packages containing the data you wish to download, it is possible to programmatically
 download this data. You may also wish to save the associated metadata for use in your analysis.
 
 The following examples extend the search functionality above to download and save data files.
 
-### Downloading data: Python
+#### Downloading data: Python
 
 ```python
 import ckanapi
@@ -209,7 +201,7 @@ for package in result['results']:
             fd.write(resp.content)
 ```
 
-### Downloading data: R
+#### Downloading data: R
 
 ```R
 library(ckanr)
@@ -226,7 +218,7 @@ for (package in x$results) {
 }
 ```
 
-### Downloading data: bash
+#### Downloading data: bash
 
 We 'pipe' the response received from the Data Portal into `jq`, a command-line tool which allows us to easily parse JSON data.
 
@@ -248,11 +240,11 @@ curl -H "Authorization: $CKAN_API_KEY" 'https://data.bioplatforms.com/api/3/acti
 md5sum -c checksums.md5
 ```
 
-### Downloading data: bash @ HPC
+#### Downloading data: bash @ HPC
 
 If you wish to download data directly from your cloud or HPC environment, you can copy the bulk download Zip archive, described in the [find, filter, download](find_filter_download.md) guide, to that system, extract it, and run the download (`download.sh`) from there. This means you will have access to the reliable, high-speed connection to the internet provided by that environment, as well as any attached storage resources.
 
-## Advanced integrations with the archive
+### Advanced integrations with the archive
 
 Once you are set up for programmatic access, it is build more advanced integrations with the portal. As examples, you
 could:
