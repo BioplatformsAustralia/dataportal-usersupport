@@ -6,15 +6,15 @@ title: "Download data and meta-data"
 
 ### Context
 
-This guide is intended to capture download to a desktop workstation, or direct download of portal data to a high performance computing (HPC) environment (as in step 6 below).
+This guide is intended to capture download to a desktop workstation, or direct download of portal data to a high performance computing (HPC) environment.
 
 ### Instructions
 
 1. When you have found the data set(s) you would like to download, click bulk download
 
-<p align="center">
-<img src="images/omg_download.png">
-</p>
+   <p align="center">
+   <img src="images/omg_download.png">
+   </p>
      
    - This will generate a zip folder with the files you need to download the data
    - Download and decompress this folder
@@ -48,7 +48,7 @@ This guide is intended to capture download to a desktop workstation, or direct d
  
 7. When you run `download.py`, `download.sh` or `download.ps1`, it will provide instructions to set up your API key
 8. Set up API key
-9. Run `downloads.sh` or `downloads.ps1` again
+9. Run `download.py`, `download.sh` or `download.ps1` again
 10. The data should now download and checksum
 
 ### Common Issues and Problems
