@@ -1,12 +1,6 @@
 ---
-title: "Filter by meta-data ([Australian Microbiome](https://www.australianmicrobiome.com/))"
+title: How to filter Australian Microbiome data
 ---
-
-<style type="text/css">
-.main-container {
-  max-width: 1500px;
-}
-</style>
 
 Note: the processed data facility instructions can be accessed [here](https://data.bioplatforms.com/organization/pages/australian-microbiome/processed). This text has been incorporated below.
 

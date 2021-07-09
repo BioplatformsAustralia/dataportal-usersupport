@@ -2,19 +2,13 @@
 title: "Find and filter Framework Initiative data"
 ---
 
-<style type="text/css">
-.main-container {
-  max-width: 1500px;
-}
-</style>
-
-# Introduction
+## Introduction
 
 The instructions here provide clarity regarding how to effectively search the Bioplatforms data portal, and obtain search results that are either specific to a certain meta-data field (e.g. `flowcell_id`), or which can capture the existence of search values across meta-data fields.
 
 When you have found the data set(s) you were looking for, it's time to [download](programmatic_access.md). 
 
-# Search box
+## Search box
 
 The query terms for any search should be entered into the "Search" box, which appears on the landing pages for each Framework Initiative on the data portal.
 
@@ -29,7 +23,7 @@ The proper syntax for a data portal search is `[meta-data field name]:[value]`. 
 1. **Simple**: no colon is used, simply enter the search words
 2. **Advanced**: at least one colon present, with numerous options possible including boolean operators (`AND` / `OR` / `NOT` / `+` / `-` )
 
-# Meta-data fields available for search
+## Meta-data fields available for search
 
 For the Oz Mammals Genomics example above, some common meta-data fields that may be of interest are:
 
@@ -55,7 +49,7 @@ For the Oz Mammals Genomics example above, some common meta-data fields that may
 
 **Note**: many more fields are in active use at any one time and these will vary slightly for each Framework Initiative. You can find a list of these fields by clicking on a relevant dataset and scrolling down to the ‘Additional Info’ table. 
 
-# Simple search
+## Simple search
 
 To conduct a broad search, simply type a keyword into the search bar. This type of search will look for that keyword anywhere in the database and is more suited for initial discovery searches to gain an appreciation for the resources available through any one Framework Initiative.
 
@@ -68,7 +62,7 @@ For example, if you search the OMG section of the portal for data sets using the
 <img src="images/search_2.png">
 </p>
 
-# Advanced search for specific meta-data fields
+## Advanced search for specific meta-data fields
 
 If the values of interest are known, it is better to search for specific values (e.g. “Fat-tailed Dunnart”) in a single defined meta-data field (e.g. `common_name`).
 
@@ -86,7 +80,7 @@ Here, 4 data sets are located, each of which used the PacBio Sequel instrument a
 <img src="images/search_3.png">
 </p>
 
-# Advanced search across multiple meta-data fields
+## Advanced search across multiple meta-data fields
 
 If you wanted to search across multiple meta-data fields, and each search term was mandatory / required, the search syntax would look like this:
 
@@ -104,7 +98,7 @@ This is useful as it distinguishes datasets for the genus Sminthopsis, for which
 - *Sminthopsis longicaudata*, in addition to
 - *Sminthopsis crassicaudata*
 
-# Acknowledgements
+## Acknowledgements
 
 Source material for [CKAN search instructions](https://gist.github.com/davidmiller/f22c2dcb347f3dbc4b16cb8a4bddbc04)
 
