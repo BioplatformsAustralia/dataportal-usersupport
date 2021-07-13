@@ -8,3 +8,8 @@ output:
     toc_depth: 2
     includes:
       in_header: header.html
+# exclude files from Jekyll rending in local RMarkdown build
+exclude:
+ - Gemfile
+ - Gemfile.lock
+ - Makefile
