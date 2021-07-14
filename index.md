@@ -6,7 +6,7 @@ We've provided a set of user guides for the Bioplatforms Data Portal.
 
 These cover a variety of common tasks including:
 
-* Regstration for the portal
+* Registration for the portal
 * Logging into the protal
 * Finding data
 * Advanced filtering
