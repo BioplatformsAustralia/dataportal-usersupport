@@ -73,9 +73,15 @@ file.
 
 ## RMarkdown
 
+### Local build using RStudio / RMarkdown
+
+The site can be built locally for development under RStudio with RMarkdown.  
+A different theme is applied.   The RMarkdown render is configured
+in ```_site.yml```
+
 ### Navigation
 
-### Local build using RStudio / RMarkdown
+Navigation links are defined under ```_includes/header.html```
 
 ---
 
