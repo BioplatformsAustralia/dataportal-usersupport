@@ -7,8 +7,8 @@ github_username: BioplatformsAustralia
 
 ### Build settings ###
 
-url: https://bioplatformsaustralia.github.io
-baseurl: /dataportal-usersupport
+url: https://usersupport.bioplatforms.com
+baseurl: /
 
 remote_theme: BioplatformsAustralia/jekyll-theme-bpa
 
