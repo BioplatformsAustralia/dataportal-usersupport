@@ -15,6 +15,8 @@ uses a Jekyll remote theme that is compatible with Github Pages.
 For development/authoring of content, a local build is possible with Jekyll,
 or a simplified view with RMarkdown/RStudio
 
+Image assets are located in the ```images/``` directory
+
 ## Jekyll 
 
 ### Remote theme
