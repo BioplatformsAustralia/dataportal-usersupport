@@ -196,9 +196,11 @@ import requests
 for package in result['results']:
     for resource in package['resources']:
         url = resource['url']
-        resp = requests.get(resource['url'], headers={'Authorization': remote.apikey})
-        with open(resource['name'], 'wu') as fd:
-            fd.write(resp.content)
+        response = requests.get(resource['url'], stream=True, headers={'Authorization': remote.apikey})
+        handle = open(resource['name'], 'wb')
+        for chunk in response.iter_content(chunk_size=1024):
+            if chunk:  #filter out keep-alive new chunks
+                handle.write(chunk)
 ```
 
 #### Downloading data: R
