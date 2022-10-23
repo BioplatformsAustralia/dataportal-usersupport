@@ -14,4 +14,5 @@ These cover a variety of common tasks including:
 
 We suggest starting with [Register and log-in](registration_login.md)
 
-Please use the Contact information below if you have any further questions.
+Please use the Contact information below if you have any further questions
+or suggestions.
