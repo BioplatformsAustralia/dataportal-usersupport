@@ -51,8 +51,9 @@ This guide is intended to capture download to a desktop workstation, or direct d
  
 8. When you run `download.py`, `download.sh` or `download.ps1`, it will provide instructions to set up your API key
 9. Set up API key
-10. Run `download.py`, `download.sh` or `download.ps1` again
-11. The data should now download and checksum
+10. Ensure you have sufficient storage available for your selected data to download. Size requirements can be viewed in README.txt.
+11. Run `download.py`, `download.sh` or `download.ps1` again
+12. The data should now download and checksum
 
 ### Common Issues and Problems
 
