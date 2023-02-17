@@ -16,7 +16,8 @@ This guide is intended to capture download to a desktop workstation, or direct d
    <img src="images/omg_download.png">
    </p>
      
-   - This will provide a summary of the processs, and present a Download Zip button. Clicking this button will generate a zip folder with the files you need to download the data
+   - This will provide a summary of the processs, and present a Download Zip button. Clicking this button will generate a zip folder with the files you need to download the data. 
+   - It DOES NOT download the data directly.
    - Download and decompress this folder
    - Inside there are the following files and folders:
        - `organization_metadata/`
@@ -49,10 +50,15 @@ This guide is intended to capture download to a desktop workstation, or direct d
 
    - `download.sh`: UNIX shell script,  which when executed will download the files, and then checksum them. This is supported on any Linux or MacOS/BSD system, so long as `curl` is installed.
  
-8. When you run `download.py`, `download.sh` or `download.ps1`, it will provide instructions to set up your API key
-9. Set up API key
-10. Ensure you have sufficient storage available for your selected data to download. Size requirements can be viewed in README.txt.
-11. Run `download.py`, `download.sh` or `download.ps1` again
+8. When you run `download.py`, `download.sh` or `download.ps1`, it will provide instructions to set up your API token
+9. Set up API token within the data portal and assign it to the CKAN_API_TOKEN environment variable.
+    You can create your API Token by browsing to your user page by clicking your name at the top of the Portal page. 
+    Then click the API Tokens tab.
+    Enter a name for your token, then click "Create API Token".
+    Copy the generated token, and use it to populate the  CKAN_API_TOKEN environment variable. Note: the token will only be displayed ONCE when it is created, however you can create and delete as many tokens as you wish.
+10. Ensure the environment variable is set whenever you wish to download data from the data portal.
+11. Ensure you have sufficient storage available for your selected data to download. Size requirements can be viewed in README.txt.
+12. Run `download.py`, `download.sh` or `download.ps1` again
 12. The data should now download and checksum
 
 ### Common Issues and Problems
@@ -62,6 +68,8 @@ This guide is intended to capture download to a desktop workstation, or direct d
 * Check that you are running a recent version of curl.   The Bioplatforms Data Portal requires version 7.58 or later
   (due to a bug fix with the Authorization header).  Run `curl --version` to check.
 * Check that your PATH contains the correct version of curl.  Run `which curl` to check.
+* Check that your enviroment variable for the CKAN_API_TOKEN is defined, and contains the API token generated within CKAN.
+  (If the CKAN_API_TOKEN is missing or incorrect, the files do not download properly due to permission issues)
 
 
 ---
@@ -82,8 +90,12 @@ When your computer program connects to the portal, it must identify itself. It w
 
 3. Log in, if required, and then click on your name
 
-4. Your API key will be visible in the sidebar
-    * **You will need this API key for the scripts used below!**
+4. Click the API Tokens tab,
+5. Cl
+6. Enter a name for the token, and click the Create API Token button.
+7. The token will be generated and shown to you ONCE only. Copy it to your clipboard.
+8. If you wish, add your token to your password manager of choice.
+    * **You will need this API token for the scripts used below!**
 
 If you are downloading or uploading large datasets from the portal, it is highly recommended that you do this from an appropriate environment, with a fast and reliable connection to the internet. Many institutions provide access to HPC nodes.
 
@@ -139,7 +151,7 @@ The list of all data types, and their associated schemas, are in the [ckanext-bp
 
 **Note: you will need to change the following elements below for the scripts to function correctly**
 
-- replace the `xx-xx-xx-xx-xx` with your API key from the data portal
+- replace the `xx-xx-xx-xx-xx` with your API token  from the data portal
 - replace the `type:amdb-genomics-amplicon` with the data type you would like to search for: these can be found in the [ckanext-bpatheme](https://github.com/BioplatformsAustralia/ckanext-bpatheme/tree/master/ckanext/bpatheme) repository on Github
 
 For example:
@@ -172,8 +184,8 @@ print(x$count)
 #### Searching: bash
 
 ```bash
-export CKAN_API_KEY="xx-xx-xx-xx-xx"
-curl -H "Authorization: "$CKAN_API_KEY" 'https://data.bioplatforms.com/api/3/action/package_search?q=type:amdb-genomics-amplicon&rows=50000&include_private=true'
+export CKAN_API_TOKEN="xx-xx-xx-xx-xx"
+curl -H "Authorization: "$CKAN_API_TOKEN" 'https://data.bioplatforms.com/api/3/action/package_search?q=type:amdb-genomics-amplicon&rows=50000&include_private=true'
 ```
 
 ### Downloading data from the CKAN archive
@@ -229,8 +241,8 @@ for (package in x$results) {
 We 'pipe' the response received from the Data Portal into `jq`, a command-line tool which allows us to easily parse JSON data.
 
 ```bash
-export CKAN_API_KEY="xx-xx-xx-xx-xx"
-for URL in $( curl -H "Authorization: $CKAN_API_KEY" 'https://data.bioplatforms.com/api/3/action/package_search?q=type:amdb-genomics-amplicon&rows=50000&include_private=true' | jq -r '.result .results [] .resources [] .url'); do
+export CKAN_API_TOKEN="xx-xx-xx-xx-xx"
+for URL in $( curl -H "Authorization: $CKAN_API_TOKEN" 'https://data.bioplatforms.com/api/3/action/package_search?q=type:amdb-genomics-amplicon&rows=50000&include_private=true' | jq -r '.result .results [] .resources [] .url'); do
   # download the file using curl
   echo "downloading: $URL"
   curl -O -L -C - -H "Authorization: $CKAN_API_KEY" "$URL"
@@ -240,8 +252,8 @@ done
 You can also use `jq` to generate an MD5 checksum file, which can be used to verify the downloaded data.
 
 ```bash
-export CKAN_API_KEY="xx-xx-xx-xx-xx"
-curl -H "Authorization: $CKAN_API_KEY" 'https://data.bioplatforms.com/api/3/action/package_search?q=type:amdb-genomics-amplicon&rows=50000&include_private=true' | jq -r '.result .results [] .resources [] | "\(.md5)  \(.name)"' > checksums.md5
+export CKAN_API_TOKEN="xx-xx-xx-xx-xx"
+curl -H "Authorization: $CKAN_API_TOKEN" 'https://data.bioplatforms.com/api/3/action/package_search?q=type:amdb-genomics-amplicon&rows=50000&include_private=true' | jq -r '.result .results [] .resources [] | "\(.md5)  \(.name)"' > checksums.md5
 # check downloaded data
 md5sum -c checksums.md5
 ```
