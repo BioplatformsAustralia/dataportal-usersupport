@@ -55,7 +55,8 @@ This guide is intended to capture download to a desktop workstation, or direct d
     You can create your API Token by browsing to your user page by clicking your name at the top of the Portal page. 
     Then click the API Tokens tab.
     Enter a name for your token, then click "Create API Token".
-    Copy the generated token, and use it to populate the  CKAN_API_TOKEN environment variable. Note: the token will only be displayed ONCE when it is created, however you can create and delete as many tokens as you wish.
+    Copy the generated token, and use it to populate the  CKAN_API_TOKEN environment variable. Note: the token will only be displayed ONCE when it is created, however you can create and delete as many tokens as you wish. 
+    If you wish, add your token to your password manager of choice
 10. Ensure the environment variable is set whenever you wish to download data from the data portal.
 11. Ensure you have sufficient storage available for your selected data to download. Size requirements can be viewed in README.txt.
 12. Run `download.py`, `download.sh` or `download.ps1` again
@@ -64,12 +65,12 @@ This guide is intended to capture download to a desktop workstation, or direct d
 ### Common Issues and Problems
 
 #### download.sh - MD5 sums do not validate correctly and files are not correct size
-
+* Check that your enviroment variable for the CKAN_API_TOKEN is defined, and contains the API token generated within CKAN.
+  (If the CKAN_API_TOKEN is missing or incorrect, the files do not download properly due to permission issues).
+* If you are using the BASH (.sh) script, and ran it without having set the CKAN_API_TOKEN, set the token and delete the files. Then run the script again.
 * Check that you are running a recent version of curl.   The Bioplatforms Data Portal requires version 7.58 or later
   (due to a bug fix with the Authorization header).  Run `curl --version` to check.
 * Check that your PATH contains the correct version of curl.  Run `which curl` to check.
-* Check that your enviroment variable for the CKAN_API_TOKEN is defined, and contains the API token generated within CKAN.
-  (If the CKAN_API_TOKEN is missing or incorrect, the files do not download properly due to permission issues)
 
 
 ---
@@ -91,10 +92,10 @@ When your computer program connects to the portal, it must identify itself. It w
 3. Log in, if required, and then click on your name
 
 4. Click the API Tokens tab,
-5. Cl
-6. Enter a name for the token, and click the Create API Token button.
-7. The token will be generated and shown to you ONCE only. Copy it to your clipboard.
-8. If you wish, add your token to your password manager of choice.
+
+5. Enter a name for the token, and click the Create API Token button.
+6. The token will be generated and shown to you ONCE only. Copy it to your clipboard.
+7. If you wish, add your token to your password manager of choice.
     * **You will need this API token for the scripts used below!**
 
 If you are downloading or uploading large datasets from the portal, it is highly recommended that you do this from an appropriate environment, with a fast and reliable connection to the internet. Many institutions provide access to HPC nodes.
