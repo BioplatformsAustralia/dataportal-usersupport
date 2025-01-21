@@ -26,22 +26,25 @@ This guide is intended to capture download to a desktop workstation, or direct d
        - `download.py`
        - `download.ps1`
        - `download.sh`
+       - `memberships.txt`
        - `README.txt`
 
 2. `README.txt` provides instructions for data download, and information about the size of the data you have selected for download: **PLEASE READ THIS!**
 
-3. `organization_metadata` contains a spreadsheet file for each organization which owns data in the downloaded filtered data set. This metadata includes links to acknowledgement, initiative and methods information.
+3. `memberships.txt` provides information about which initiative membership you have, and also what membership is required to access the data you have selected. If you do not have the appropriate membership, you can try to self-register from some initiatives, or submit a request for access to help@bioplatforms.com
 
-4. `package_metadata` contains a spreadsheet file with the metadata relevant to the downloaded filtered data set
+4. `organization_metadata` contains a spreadsheet file for each organization which owns data in the downloaded filtered data set. This metadata includes links to acknowledgement, initiative and methods information.
 
-5. `resource_metada` contains a spreadsheet file with the metadata relevant to the files which comprise the filtered data set
+5. `package_metadata` contains a spreadsheet file with the metadata relevant to the downloaded filtered data set
 
-6. The `tmp/` folder contains:
+6. `resource_metada` contains a spreadsheet file with the metadata relevant to the files which comprise the filtered data set
+
+7. The `tmp/` folder contains:
 
    - `*_md5sum.txt`, where the * indicates the name of the downloaded data package
    - `*_urls.txt`, where the * indicates the urls for each data set in the downloaded package
 
-7. `download.py`, `download.ps1` and `download.sh` are scripts in Python, Powershell and bash
+8. `download.py`, `download.ps1` and `download.sh` are scripts in Python, Powershell and bash
    
    - `download.py`: Python 3 script, which when executed will download the files, and then checksum them. This is supported on all platforms (Windows, Linux, MacOS).  Requires Python 3 and the `requests` module to be installed.
 
@@ -49,17 +52,17 @@ This guide is intended to capture download to a desktop workstation, or direct d
 
    - `download.sh`: UNIX shell script,  which when executed will download the files, and then checksum them. This is supported on any Linux or MacOS/BSD system, so long as `curl` is installed.
  
-8. When you run `download.py`, `download.sh` or `download.ps1`, it will provide instructions to set up your API token
-9. Set up API token within the data portal and assign it to the CKAN_API_TOKEN environment variable.
+9. When you run `download.py`, `download.sh` or `download.ps1`, it will provide instructions to set up your API token
+10. Set up API token within the data portal and assign it to the CKAN_API_TOKEN environment variable.
     You can create your API Token by browsing to your user page by clicking your name at the top of the Portal page. 
     Then click the API Tokens tab.
     Enter a name for your token, then click "Create API Token".
     Copy the generated token, and use it to populate the  CKAN_API_TOKEN environment variable. Note: the token will only be displayed ONCE when it is created, however you can create and delete as many tokens as you wish. 
     If you wish, add your token to your password manager of choice
-10. Ensure the environment variable is set whenever you wish to download data from the data portal.
-11. Ensure you have sufficient storage available for your selected data to download. Size requirements can be viewed in README.txt.
-12. Run `download.py`, `download.sh` or `download.ps1` again
-12. The data should now download and checksum
+11. Ensure the environment variable is set whenever you wish to download data from the data portal.
+12. Ensure you have sufficient storage available for your selected data to download. Size requirements can be viewed in README.txt.
+13. Run `download.py`, `download.sh` or `download.ps1` again
+14. The data should now download and checksum
 
 ### Common Issues and Problems
 
