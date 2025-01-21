@@ -15,7 +15,6 @@ This guide is intended to capture download to a desktop workstation, or direct d
    <p align="center">
    <img src="images/omg_download.png">
    </p>
-   - Note for Safari users: There is a known issue with Safari and the tools used to create this button. Clicking the button in Sarafi DOES NOT WORK. Please use an alternate browser (Chrome or Firefox) to perform the Bulk Download function.
    - This will provide a summary of the processs, and present a Download Zip button. Clicking this button will generate a zip folder with the files you need to download the data. 
    - It DOES NOT download the data directly.
    - Download and decompress this folder
@@ -71,6 +70,7 @@ This guide is intended to capture download to a desktop workstation, or direct d
 * Check that you are running a recent version of curl.   The Bioplatforms Data Portal requires version 7.58 or later
   (due to a bug fix with the Authorization header).  Run `curl --version` to check.
 * Check that your PATH contains the correct version of curl.  Run `which curl` to check.
+* Once you have checked all these issues, please rerun the script, even if you have not made any changes, as intermittent issues do sometimes occur.
 
 
 ---
