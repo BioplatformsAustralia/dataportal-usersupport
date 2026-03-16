@@ -84,6 +84,7 @@ in ```_site.yml```
 ### Navigation
 
 Navigation links are defined under ```_includes/header.html```
+Additional link to BiosecurityDB is also another github pages repos.
 
 ---
 
