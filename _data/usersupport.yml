@@ -1,8 +1,6 @@
 docs_list_title: User Support
 
 docs:
-- title: Register and log-in
-  url: registration_login.html
 - title: Find and filter
   url: find_filter_download.html
 - title: Download data and meta-data
